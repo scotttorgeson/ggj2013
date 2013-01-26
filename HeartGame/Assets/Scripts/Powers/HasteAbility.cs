@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class NewBehaviourScript : UnitAbility {
-	public float moveSpeedMultiplier;
-	public float atkSpeedMultiplier;
+public class HasteAbility : UnitAbility {
+	public float moveSpeedMultiplier = 10;
+	public float atkSpeedMultiplier = 100;
 	
 	protected override void ApplyEffect (UnitMovement unit)
 	{
