@@ -2,4 +2,6 @@
 *.csproj
 *.pidb
 *.sln
-Temp/*
+Temp/
+*.unityproj
+*.mdb
