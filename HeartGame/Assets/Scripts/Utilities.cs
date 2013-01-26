@@ -12,4 +12,11 @@ public static class Utilities {
 		}
 		return retGobs.ToArray();
 	}
+	
+	public static bool MouseInRect(Rect rect)
+	{
+		Vector3 mousePosition = Input.mousePosition;
+		mousePosition.y = Screen.height - mousePosition.y;
+		return rect.Contains( mousePosition );
+	}
 }

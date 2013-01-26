@@ -6,7 +6,8 @@ public class Spawner : MonoBehaviour {
 	public List<Path> pathes;
 	public int pathIndex = 0;
 	public const int pathCount = 5;
-	public GameObject unitSpawn;
+	public List<GameObject> unitSpawns;
+	public int tier = 0;
 	
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,7 @@ public class Spawner : MonoBehaviour {
 	{
 		if ( pathIndex < pathes.Count )
 		{
-			GameObject newUnit = (GameObject)Instantiate(unitSpawn, transform.position, transform.rotation);
+			GameObject newUnit = (GameObject)Instantiate(unitSpawns[tier], transform.position, transform.rotation);
 			newUnit.name = "SpawnedUnit" + pathIndex;
 			UnitMovement unitMovement = newUnit.GetComponent<UnitMovement>();
 			unitMovement.path = pathes[pathIndex];
@@ -34,5 +35,11 @@ public class Spawner : MonoBehaviour {
 			pathIndex = pathCount - 1;
 		if ( pathIndex >= pathCount )
 			pathIndex = 0;
+	}
+	
+	public void Upgrade()
+	{
+		if ( tier < unitSpawns.Count - 1 )
+			tier++;
 	}
 }
