@@ -1,16 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class GameLoop : MonoBehaviour {
+public class GameLoop : MonoBehaviour
+{
 	private float nextSpawnTime;
 	private float nextMoneyTime;
-	
 	public float spawnTimerDelay;
 	public float moneyDepositDelay;
-	
-	public int playerMoney;
-	public int enemyMoney;
 	public int moneyGain;
+	public PlayerScript player;
+	public PlayerScript enemy;
 	
 	// Use this for initialization
 	void Start () {
@@ -20,25 +19,51 @@ public class GameLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Time.time >= nextSpawnTime){
-			SpawnUnits();
-			nextSpawnTime += spawnTimerDelay;
-		}
-		if(Time.time >= nextMoneyTime){
-			GiveMoney();
-			nextMoneyTime += moneyDepositDelay;
-		}
-	}
-	
-	void SpawnUnits(){
-		var spawners = GameObject.FindGameObjectsWithTag("spawner");
-		foreach(var spawner in spawners){
-			spawner.Spawn();
+		//Check for end-game state
+		if (enemy.currentLife > 0 && player.currentLife > 0) {
+			if (Time.time >= nextSpawnTime) {
+				SpawnUnits ();
+				nextSpawnTime += spawnTimerDelay;
+			}
+			if (Time.time >= nextMoneyTime) {
+				GiveMoney ();
+				nextMoneyTime += moneyDepositDelay;
+			}
 		}
 	}
 	
-	void GiveMoney(){
-		playerMoney += moneyGain;
-		enemyMoney += moneyGain;
+	void OnGUI () {
+		//Check for end-game state
+		if (enemy.currentLife <= 0) {
+			//Win Game
+			GUI.Box (new Rect (10, 10, 100, 10), "You WIN!");
+			
+			if (GUI.Button (new Rect (20, 40, 80, 20), "New Game")) {
+				Application.LoadLevel (1);
+			}
+			
+			if (GUI.Button (new Rect (20, 80, 80, 20), "Main Menu")) {
+				Application.LoadLevel (0);
+			}
+		} else if (player.currentLife <= 0) {
+			//Lose Game
+			GUI.Box (new Rect (10, 10, 100, 10), "You LOSE!");
+			
+			if (GUI.Button (new Rect (20, 40, 80, 20), "New Game")) {
+				Application.LoadLevel (1);
+			}
+			
+			if (GUI.Button (new Rect (20, 80, 80, 20), "Main Menu")) {
+				Application.LoadLevel (0);
+			}
+		}
+	}
+	
+	void SpawnUnits () {
+	}
+	
+	void GiveMoney () {
+		player.AddMoney (moneyGain);
+		enemy.AddMoney (moneyGain);
 	}
 }

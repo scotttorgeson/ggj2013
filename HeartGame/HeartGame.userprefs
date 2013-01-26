@@ -1,8 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameLoop.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SpawnPoint.cs">
     <Files>
-      <File FileName="Assets\GameLoop.cs" Line="6" Column="30" />
+      <File FileName="Assets\GameLoop.cs" Line="33" Column="20" />
+      <File FileName="Assets\PlayerScript.cs" Line="20" Column="3" />
+      <File FileName="Assets\SpawnPoint.cs" Line="15" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
