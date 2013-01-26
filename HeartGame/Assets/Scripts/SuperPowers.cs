@@ -9,6 +9,8 @@ public class SuperPowers : MonoBehaviour
 	public GUIContent bombButtonContent;
 	public Rect bombButtonRect;
 	public GameObject aimPreview;
+	public int cost = 250;
+	public PlayerScript source;
 	
 	private GameObject targetPreview;
 	
@@ -32,12 +34,15 @@ public class SuperPowers : MonoBehaviour
 	}
 	
 	void UseBomb() {
+		if(source.currentMoney >= cost){
+			source.currentMoney -= cost;
 			Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
 			RaycastHit hit;
 			if ( Physics.Raycast( ray, out hit, Mathf.Infinity, 1 << 10 ) )
 			{
 				Instantiate( bombSuperPower, hit.point, Quaternion.identity );					
 			}	
+		}
 	}
 	
 	void OnGUI(){
