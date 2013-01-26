@@ -25,20 +25,17 @@ public class PlayerGUI : MonoBehaviour {
 	}
 	
 	void OnGUI()
-	{
-		
+	{		
 		if ( selectedSpawner != null )
 		{
 			var spawner = selectedSpawner.GetComponent<Spawner>();
-			if(spawner!=null){
-				if(spawner.tier == 0){
-					//display upgrade path selection
+			if(spawner!=null && spawner.currentUpgrade!=null){
+				//display upgrade path selection
+				foreach(var upgrade in spawner.currentUpgrade.upgrades){
+					if( GUI.Button(upgrade.upgradeButtonRect, upgrade.upgradeButtonContent, upgrade.upgradeButtonStyle) ) {
+						gameObject.GetComponent<PlayerScript>().Upgrade(spawner, upgrade);
+					}
 				}
-			}
-			if ( GUI.Button (upgradeButtonRect, upgradeButtonContent, upgradeButtonStyle) )
-			{
-				// upgrade selectedSpawner
-				selectedSpawner.transform.parent.GetComponent<PlayerScript>().Upgrade( selectedSpawner.GetComponent<Spawner>() );
 			}
 		}
 		

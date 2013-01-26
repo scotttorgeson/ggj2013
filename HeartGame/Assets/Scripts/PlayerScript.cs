@@ -66,13 +66,13 @@ public class PlayerScript : MonoBehaviour {
 		// if ( currentLife <= 0 ) VictoryOrDefeat();
 	}
 	
-	public void Upgrade(Spawner spawner)
+	public void Upgrade(Spawner spawner, UnitUpgrade upgrade)
 	{
 		// if there are more tiers, and we have the money, upgrade the selected spawner
-		if ( spawner.unitSpawns.Count > spawner.tier + 1 && currentMoney > upgradeCosts[spawner.tier] )
+		if ( spawner!=null && upgrade!=null && currentMoney > upgrade.cost )
 		{
-			currentMoney -= upgradeCosts[spawner.tier];
-			spawner.Upgrade();
+			currentMoney -= upgrade.cost;
+			spawner.currentUpgrade= upgrade;
 		}
 	}
 }

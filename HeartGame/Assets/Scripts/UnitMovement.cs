@@ -142,7 +142,7 @@ public class UnitMovement : MonoBehaviour {
 	
 	void HideGameObject(bool hide, GameObject hideMe)
 	{
-		hideMe.renderer.enabled = hide;
+		//hideMe.renderer.enabled = hide;
 		foreach(Transform child in hideMe.transform)
 		{
 			HideGameObject(hide, child.gameObject);	
