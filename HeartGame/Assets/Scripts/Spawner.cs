@@ -14,8 +14,6 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if ( Time.frameCount % 300 == 0 )
-			Spawn ();
 	}
 	
 	public void Spawn()
