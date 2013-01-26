@@ -1,12 +1,12 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public static class Utilities {
 	public static GameObject[] FindObjectsWithinRange(Vector3 position, string tag, float radius){
-		var gobs = Physics.OverlapSphere(positoin, radius);
-		var retGobs = new Generic.List<GameObject>();
+		var gobs = GameObject.FindGameObjectsWithTag(tag);
+		var retGobs = new List<GameObject>();
 		foreach(var gob in gobs){
-			if(gob.CompareTag(tag)){
+			if(Vector3.Distance(position, gob.transform.position) <= radius) {
 				retGobs.Add (gob);
 			}
 		}

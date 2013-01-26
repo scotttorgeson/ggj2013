@@ -11,6 +11,9 @@ public class GameLoop : MonoBehaviour
 	public PlayerScript player;
 	public PlayerScript enemy;
 	
+	public bool skipPlayerSpawn;
+	public bool skipEnemySpawn;
+	
 	// Use this for initialization
 	void Start () {
 		nextSpawnTime = Time.time + spawnTimerDelay;
@@ -60,6 +63,13 @@ public class GameLoop : MonoBehaviour
 	}
 	
 	void SpawnUnits () {
+		if(!skipPlayerSpawn){
+			//player.playerBase.Spawn();			
+		}
+		if(!skipEnemySpawn){
+			//enemy.playerBase.Spawn();
+		}
+		skipPlayerSpawn = skipEnemySpawn = false;
 	}
 	
 	void GiveMoney () {
