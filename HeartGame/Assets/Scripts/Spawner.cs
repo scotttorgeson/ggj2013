@@ -1,6 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public struct UnitUpgrade {
+	public UnitMovement unitSpawn;
+	
+	public GUIStyle upgradeButtonStyle;
+	public GUIContent upgradeButtonContent;
+	public Rect upgradeButtonRect;
+}
+
 public class Spawner : MonoBehaviour {
 	
 	public List<Path> pathes;
@@ -8,6 +16,8 @@ public class Spawner : MonoBehaviour {
 	public const int pathCount = 5;
 	public List<GameObject> unitSpawns;
 	public int tier = 0;
+	
+	public UnitUpgrade[] upgrades;	
 	
 	// Use this for initialization
 	void Start () {

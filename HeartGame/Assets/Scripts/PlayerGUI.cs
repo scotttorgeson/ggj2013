@@ -29,6 +29,12 @@ public class PlayerGUI : MonoBehaviour {
 		
 		if ( selectedSpawner != null )
 		{
+			var spawner = selectedSpawner.GetComponent<Spawner>();
+			if(spawner!=null){
+				if(spawner.tier == 0){
+					//display upgrade path selection
+				}
+			}
 			if ( GUI.Button (upgradeButtonRect, upgradeButtonContent, upgradeButtonStyle) )
 			{
 				// upgrade selectedSpawner
