@@ -3,4 +3,5 @@
 *.pidb
 *.sln
 Temp/
-*.dll.mdb
+*.unityproj
+*.mdb
