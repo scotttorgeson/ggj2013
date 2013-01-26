@@ -9,6 +9,9 @@ public class PlayerGUI : MonoBehaviour {
 	public GUIStyle upgradeButtonStyle;
 	public GUIContent upgradeButtonContent;
 	public Rect upgradeButtonRect;
+	
+	public GUIStyle resourceTextStyle;
+	public Rect resourceTextRect;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +39,9 @@ public class PlayerGUI : MonoBehaviour {
 				selectedSpawner.GetComponent<Spawner>().Upgrade();
 			}
 		}
+		
+		int resourceCount = gameObject.GetComponent<PlayerScript>().currentMoney;
+		GUI.TextArea( resourceTextRect, resourceCount.ToString(), resourceTextStyle );
 	}
 	
 	void UpdateSelection()
