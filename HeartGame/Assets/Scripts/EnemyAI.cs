@@ -12,11 +12,13 @@ public class EnemyAI : MonoBehaviour {
 		var enemyBase = gameObject.GetComponent<PlayerScript>();
 		foreach(var spawn in enemyBase.spawnPoints){
 			if(spawn.pathIndex < spawn.pathes.Count) {
-				/*
-				if(enemyBase.currentMoney >= enemyBase.upgradeCosts[spawn.tier] && spawn.tier < spawn.unitSpawns.Count - 1) {
-					enemyBase.currentMoney -= enemyBase.upgradeCosts[spawn.tier];
-					spawn.Upgrade();
-				}*/				
+				//NOTE: Ugly, hackish, ineffective - do better if possible
+				if(spawn.currentUpgrade.upgrades !=null && spawn.currentUpgrade.upgrades.Length > 0){
+					var i = Random.Range (0, spawn.currentUpgrade.upgrades.Length-1);
+					if(enemyBase.currentMoney >= spawn.currentUpgrade.upgrades[i].cost) {
+						enemyBase.Upgrade(spawn, spawn.currentUpgrade.upgrades[i]);
+					}
+				}			
 			}
 		}
 	}
