@@ -5,14 +5,15 @@ public class GameLoop : MonoBehaviour
 {
 	private float nextSpawnTime;
 	private float nextMoneyTime;
-	public float spawnTimerDelay;
-	public float moneyDepositDelay;
-	public int moneyGain;
+	
+	public float spawnTimerDelay = 10;
+	public float moneyDepositDelay = 1;
+	public int moneyGain = 25;
 	public PlayerScript player;
 	public PlayerScript enemy;
 	
-	public bool skipPlayerSpawn;
-	public bool skipEnemySpawn;
+	public bool skipPlayerSpawn = false;
+	public bool skipEnemySpawn = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -64,10 +65,14 @@ public class GameLoop : MonoBehaviour
 	
 	void SpawnUnits () {
 		if(!skipPlayerSpawn){
-			//player.playerBase.Spawn();			
+			foreach(var spawn in player.spawnPoints){
+				spawn.Spawn();
+			}
 		}
 		if(!skipEnemySpawn){
-			//enemy.playerBase.Spawn();
+			foreach(var spawn in enemy.spawnPoints){
+				spawn.Spawn();
+			}
 		}
 		skipPlayerSpawn = skipEnemySpawn = false;
 	}

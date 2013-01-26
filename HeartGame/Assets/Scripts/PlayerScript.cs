@@ -6,8 +6,9 @@ public class PlayerScript : MonoBehaviour {
 	public int currentLife;
 	
 	public GameObject playerBase;
-	public int startingMoney;
-	public int startingLife;
+	public int startingMoney = 1000;
+	public int startingLife = 10;
+	public Spawner[] spawnPoints;
 	
 	// Use this for initialization
 	void Start () {
