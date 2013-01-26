@@ -20,6 +20,7 @@ public class UnitMovement : MonoBehaviour {
 	public GameObject deathParticleEffect;
 	public int health = 30;
 	public int damage = 10;
+	public float burstRadius = 0;
 	
 	private float killTime = Mathf.Infinity;
 	private int takeDamage = 0;
@@ -70,6 +71,7 @@ public class UnitMovement : MonoBehaviour {
 		if ( targetEnemy == null )
 		{
 			var enemies = Utilities.FindObjectsWithinRange(this.transform.position, isPlayerUnit ? "EnemyUnit" : "PlayerUnit", perceptRadius);
+			
 			if ( enemies != null && enemies.Length > 0 )
 			{
 				float closestDistance = Mathf.Infinity;
@@ -196,8 +198,22 @@ public class UnitMovement : MonoBehaviour {
 			UnitMovement unitMovement = enemy.GetComponent<UnitMovement>();
 			PlayerScript playerScript = enemy.GetComponent<PlayerScript>();
 			
-			if ( unitMovement != null )
-				unitMovement.Attacked( damage );
+			if ( unitMovement != null ) {
+				//Handle AE burst
+				if(burstRadius <= 0)
+					unitMovement.Attacked( damage );
+				else {					
+					var enemies = Utilities.FindObjectsWithinRange(this.transform.position, isPlayerUnit ? "EnemyUnit" : "PlayerUnit", perceptRadius);					
+					foreach( var other in enemies )
+					{
+						var otherMove = other.GetComponent<UnitMovement>();
+						if ( Vector3.Distance(enemy.transform.position, other.transform.position) < burstRadius )
+						{
+							otherMove.Attacked(damage);
+						}
+					}
+				}
+			}
 			if ( playerScript != null )
 				playerScript.Attacked( damage );			
 			
