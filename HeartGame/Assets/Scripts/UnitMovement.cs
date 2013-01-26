@@ -25,6 +25,7 @@ public class UnitMovement : MonoBehaviour {
 	private int takeDamage = 0;
 	
 	private float lastPerceiveTime = -100.0f;
+	private GameObject enemyBase;
 	
 	// Use this for initialization
 	void Start () {
@@ -34,6 +35,15 @@ public class UnitMovement : MonoBehaviour {
 		if (!isPlayerUnit)
 		{
 			HideGameObject(true, gameObject);	
+		}
+		
+		if ( isPlayerUnit )
+		{
+			enemyBase = GameObject.FindGameObjectWithTag("EnemyBase");
+		}
+		else
+		{
+			enemyBase = GameObject.FindGameObjectWithTag("PlayerBase");	
 		}
 	}
 	
@@ -83,10 +93,26 @@ public class UnitMovement : MonoBehaviour {
 			gameObject.transform.LookAt( targetEnemy.transform );
 		}
 		else
-		{		
-			// move towards next path node
-			this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, path.nodes[nodeIndex].transform.position, Time.deltaTime * moveSpeed );
-			gameObject.transform.LookAt( path.nodes[nodeIndex].transform );
+		{
+			// are near the base?
+			if ( Vector3.Distance(this.transform.position, enemyBase.transform.position) < perceptRadius )
+			{
+				// move towards the enemy base
+				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, enemyBase.transform.position, Time.deltaTime * moveSpeed );
+				gameObject.transform.LookAt( enemyBase.transform.position );
+				
+				if ( Vector3.Distance(this.transform.position, enemyBase.transform.position) < attackRadius )
+				{
+					// attack the enemy base
+					Attack( enemyBase );
+				}
+			}
+			else
+			{			
+				// move towards next path node
+				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, path.nodes[nodeIndex].transform.position, Time.deltaTime * moveSpeed );
+				gameObject.transform.LookAt( path.nodes[nodeIndex].transform );
+			}
 		}
 		
 		// reach node, target next one
@@ -118,7 +144,13 @@ public class UnitMovement : MonoBehaviour {
 		if ( nextAttackTime < Time.time )
 		{
 			// attack
-			enemy.GetComponent<UnitMovement>().Attacked( damage );
+			UnitMovement unitMovement = enemy.GetComponent<UnitMovement>();
+			PlayerScript playerScript = enemy.GetComponent<PlayerScript>();
+			
+			if ( unitMovement != null )
+				unitMovement.Attacked( damage );
+			if ( playerScript != null )
+				playerScript.Attacked( damage );			
 			
 			GameObject effect = (GameObject)Instantiate( attackParticleEffect, this.transform.position, this.transform.rotation );
 			effect.transform.parent = gameObject.transform;

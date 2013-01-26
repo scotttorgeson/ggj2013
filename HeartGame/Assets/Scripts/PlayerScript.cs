@@ -35,4 +35,11 @@ public class PlayerScript : MonoBehaviour {
 	public void AddMoney(int amount){
 		currentMoney += amount;
 	}
+	
+	public void Attacked( int damage )
+	{
+		currentLife -= damage;
+		
+		// if ( currentLife <= 0 ) VictoryOrDefeat();
+	}
 }
