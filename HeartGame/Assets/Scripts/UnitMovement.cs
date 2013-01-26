@@ -27,8 +27,11 @@ public class UnitMovement : MonoBehaviour {
 	private float lastPerceiveTime = -100.0f;
 	private GameObject enemyBase;
 	
+	private float currentSpeed;
+	
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		this.gameObject.transform.position = path.nodes[nodeIndex].position;
 		isPlayerUnit = this.tag == "PlayerUnit";
 		
@@ -78,30 +81,29 @@ public class UnitMovement : MonoBehaviour {
 		
 		if ( targetEnemy != null )
 		{
-			float distance = Vector3.Distance(this.transform.position, targetEnemy.transform.position);
-			if ( distance < attackRadius )
+			if ( InRangeToAttack(targetEnemy) )
 			{
 				// attack enemy
 				Attack( targetEnemy );	
 			}
 			else
 			{
-				// move towards target enemy
-				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, targetEnemy.gameObject.transform.position, moveSpeed );				
+				// not in range to attack, move towards target enemy
+				MoveTo ( targetEnemy );
 			}			
 			
 			gameObject.transform.LookAt( targetEnemy.transform );
 		}
 		else
 		{
-			// are near the base?
-			if ( Vector3.Distance(this.transform.position, enemyBase.transform.position) < perceptRadius )
+			// are we near the base?
+			if ( Vector3.Distance( this.transform.position, enemyBase.transform.position) < perceptRadius )
 			{
 				// move towards the enemy base
-				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, enemyBase.transform.position, moveSpeed );
+				MoveTo ( enemyBase );
 				gameObject.transform.LookAt( enemyBase.transform.position );
 				
-				if ( Vector3.Distance(this.transform.position, enemyBase.transform.position) < attackRadius )
+				if ( InRangeToAttack( enemyBase ) )
 				{
 					// attack the enemy base
 					Attack( enemyBase );
@@ -110,7 +112,7 @@ public class UnitMovement : MonoBehaviour {
 			else
 			{			
 				// move towards next path node
-				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, path.nodes[nodeIndex].transform.position, moveSpeed );
+				MoveTo ( path.nodes[nodeIndex] );
 				gameObject.transform.LookAt( path.nodes[nodeIndex].transform );
 			}
 		}
@@ -137,6 +139,45 @@ public class UnitMovement : MonoBehaviour {
 		{
 			HideGameObject(hide, child.gameObject);	
 		}
+	}
+	
+	void MoveTo(Transform other)
+	{
+		MoveTo (other.position);
+	}
+	
+	void MoveTo(GameObject other)
+	{
+		MoveTo (other.transform);	
+	}
+	
+	void MoveTo(Vector3 other)
+	{
+		this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, other, moveSpeed );
+	}
+	
+	// checks if we are in range and facing the enemy
+	bool InRangeToAttack( GameObject enemy )
+	{
+		float distance = Vector3.Distance( transform.position, enemy.transform.position );
+		float angle = Vector3.Angle( transform.forward, enemy.transform.position - transform.position );
+		
+		if( angle < 30.0f )
+		{
+			RadiusScript enemyRadiusScript = enemy.GetComponent<RadiusScript>();
+			RadiusScript ourRadiusScript = gameObject.GetComponent<RadiusScript>();
+			
+			if ( enemyRadiusScript != null )
+				distance -= enemyRadiusScript.radius;
+			if ( ourRadiusScript != null )
+				distance -= ourRadiusScript.radius;
+			
+			distance -= attackRadius;
+			
+			return distance < 0.0f;
+		}
+		
+		return false;
 	}
 	
 	void Attack( GameObject enemy )
