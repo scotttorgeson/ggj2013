@@ -209,7 +209,7 @@ public class UnitMovement : MonoBehaviour {
 		}
 	}
 	
-	void Attacked( int damage )
+	public void Attacked( int damage )
 	{
 		takeDamage += damage;
 	}
