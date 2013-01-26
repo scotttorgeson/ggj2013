@@ -23,6 +23,10 @@ public class GameLoop : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if ( Input.GetAxis("Exit") != 0.0f )
+			Application.Quit();
+		
 		//Check for end-game state
 		if (enemy.currentLife > 0 && player.currentLife > 0) {
 			if (Time.time >= nextSpawnTime) {

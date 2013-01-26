@@ -22,11 +22,19 @@ public class UnitMovement : MonoBehaviour {
 	public int damage = 10;
 	
 	private float killTime = Mathf.Infinity;
+	private int takeDamage = 0;
+	
+	private float lastPerceiveTime = -100.0f;
 	
 	// Use this for initialization
 	void Start () {
 		this.gameObject.transform.position = path.nodes[nodeIndex].position;
 		isPlayerUnit = this.tag == "PlayerUnit";
+		
+		if (!isPlayerUnit)
+		{
+			HideGameObject(true, gameObject);	
+		}
 	}
 	
 	// Update is called once per frame
@@ -48,6 +56,7 @@ public class UnitMovement : MonoBehaviour {
 				float closestDistance = Mathf.Infinity;
 				foreach( var enemy in enemies )
 				{
+					enemy.GetComponent<UnitMovement>().lastPerceiveTime = Time.time;
 					if ( Vector3.Distance(enemy.transform.position, this.transform.position) < closestDistance )
 					{
 						closestDistance = Vector3.Distance(enemy.transform.position, this.transform.position);
@@ -86,6 +95,22 @@ public class UnitMovement : MonoBehaviour {
 			if ( nodeIndex < path.nodes.Count - 1 )
 				nodeIndex++;
 		}
+		
+		TakeDamage();
+		
+		if ( !isPlayerUnit )
+		{
+			HideGameObject( Time.time - lastPerceiveTime < 3.0f, gameObject );
+		}
+	}
+	
+	void HideGameObject(bool hide, GameObject hideMe)
+	{
+		hideMe.renderer.enabled = hide;
+		foreach(Transform child in hideMe.transform)
+		{
+			HideGameObject(hide, child.gameObject);	
+		}
 	}
 	
 	void Attack( GameObject enemy )
@@ -105,9 +130,14 @@ public class UnitMovement : MonoBehaviour {
 	
 	void Attacked( int damage )
 	{
-		if ( health > 0 )
+		takeDamage += damage;
+	}
+	
+	void TakeDamage()
+	{
+		if ( health > 0 && takeDamage > 0 )
 		{
-			health -= damage;
+			health -= takeDamage;
 			
 			if ( health <= 0 )
 			{
@@ -116,5 +146,7 @@ public class UnitMovement : MonoBehaviour {
 				killTime = Time.time + 1.0f;
 			}
 		}
+		
+		takeDamage = 0;
 	}
 }
