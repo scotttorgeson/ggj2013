@@ -10,7 +10,7 @@ public class SkipSpawnScript : MonoBehaviour {
 	void Start () {		
 		var gameLoop = (GameLoop)GameObject.FindObjectOfType(typeof(GameLoop));
 		gameLoop.skipEnemySpawn = true;
-		sourcePlayer.currentMoney -= moneyCost;
+		//sourcePlayer.currentMoney -= moneyCost;
 		GameObject.Destroy(gameObject);
 	}
 }
