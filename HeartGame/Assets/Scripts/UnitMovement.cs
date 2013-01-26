@@ -203,17 +203,14 @@ public class UnitMovement : MonoBehaviour {
 				if(burstRadius <= 0)
 					unitMovement.Attacked( damage );
 				else {		
-					int aeTargets = 0;
 					var enemies = Utilities.FindObjectsWithinRange(this.transform.position, isPlayerUnit ? "EnemyUnit" : "PlayerUnit", burstRadius);					
 					foreach( var other in enemies )
 					{
 						var otherMove = other.GetComponent<UnitMovement>();
 						if(otherMove !=null){
 							otherMove.Attacked(damage);
-							aeTargets++;
 						}
 					}
-					Debug.Log (System.String.Format ("AE attack hit {0} enemies", aeTargets));
 				}
 			}
 			if ( playerScript != null )
