@@ -2,4 +2,5 @@
 *.csproj
 *.pidb
 *.sln
-Temp/*
+Temp/
+*.dll.mdb
