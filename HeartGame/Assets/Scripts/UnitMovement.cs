@@ -87,7 +87,7 @@ public class UnitMovement : MonoBehaviour {
 			else
 			{
 				// move towards target enemy
-				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, targetEnemy.gameObject.transform.position, Time.deltaTime * moveSpeed );				
+				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, targetEnemy.gameObject.transform.position, moveSpeed );				
 			}			
 			
 			gameObject.transform.LookAt( targetEnemy.transform );
@@ -98,7 +98,7 @@ public class UnitMovement : MonoBehaviour {
 			if ( Vector3.Distance(this.transform.position, enemyBase.transform.position) < perceptRadius )
 			{
 				// move towards the enemy base
-				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, enemyBase.transform.position, Time.deltaTime * moveSpeed );
+				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, enemyBase.transform.position, moveSpeed );
 				gameObject.transform.LookAt( enemyBase.transform.position );
 				
 				if ( Vector3.Distance(this.transform.position, enemyBase.transform.position) < attackRadius )
@@ -110,7 +110,7 @@ public class UnitMovement : MonoBehaviour {
 			else
 			{			
 				// move towards next path node
-				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, path.nodes[nodeIndex].transform.position, Time.deltaTime * moveSpeed );
+				this.gameObject.transform.position = Vector3.MoveTowards( this.gameObject.transform.position, path.nodes[nodeIndex].transform.position, moveSpeed );
 				gameObject.transform.LookAt( path.nodes[nodeIndex].transform );
 			}
 		}

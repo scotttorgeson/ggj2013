@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour {
 	public int startingLife = 10;
 	public Spawner[] spawnPoints;
 	
+	private float targetRotation = 0.0f;
+	
 	// Use this for initialization
 	void Start () {
 		currentMoney = startingMoney;
@@ -22,13 +24,20 @@ public class PlayerScript : MonoBehaviour {
 		var baseRotate = (int)Input.GetAxis("RotateBase");
 		
 		if(baseRotate != 0 && lastFrameRotate == 0){
-			float rot = (float)baseRotate * 360/5;
-			//Rotate base
-			gameObject.transform.Rotate(new Vector3(0f, rot, 0f));
+			
+			targetRotation += (float)baseRotate * 360/5;
+			
+			
 			foreach(var spawn in spawnPoints){
 				spawn.Rotated(baseRotate);
 			}
-		}		
+		}
+		
+		//Rotate base
+		float rot = gameObject.transform.eulerAngles.y;
+		rot = Mathf.MoveTowards(rot, targetRotation, 1.0f);
+		gameObject.transform.eulerAngles = new Vector3(0f, rot, 0f);
+		
 		lastFrameRotate = baseRotate;
 	}
 	
