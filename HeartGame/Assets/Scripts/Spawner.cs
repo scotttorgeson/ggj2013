@@ -10,7 +10,6 @@ public class Spawner : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		// path = Path.Pathes[pathIndex];
 	}
 	
 	// Update is called once per frame
