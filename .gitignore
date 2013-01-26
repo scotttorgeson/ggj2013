@@ -1,0 +1,5 @@
+*.dll
+*.csproj
+*.pidb
+*.sln
+Temp/*
