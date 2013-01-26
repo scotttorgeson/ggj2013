@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour {
 	
-	public Path path;
+	public List<Path> pathes;
 	public int pathIndex = 0;
 	public const int pathCount = 5;
 	public GameObject unitSpawn;
@@ -20,12 +20,12 @@ public class Spawner : MonoBehaviour {
 	
 	public void Spawn()
 	{
-		if ( path != null )
+		if ( pathIndex < pathes.Count )
 		{
 			GameObject newUnit = (GameObject)Instantiate(unitSpawn, transform.position, transform.rotation);
 			newUnit.name = "SpawnedUnit" + pathIndex;
 			UnitMovement unitMovement = newUnit.GetComponent<UnitMovement>();
-			unitMovement.path = path;
+			unitMovement.path = pathes[pathIndex];
 		}
 	}
 	
@@ -34,12 +34,7 @@ public class Spawner : MonoBehaviour {
 		pathIndex += direction;
 		if ( pathIndex < 0 )
 			pathIndex = pathCount - 1;
-		if ( pathIndex > pathCount )
+		if ( pathIndex >= pathCount )
 			pathIndex = 0;
-		
-		if ( pathIndex < Path.Pathes.Count )
-			path = Path.Pathes[pathIndex];
-		else
-			path = null;
 	}
 }
