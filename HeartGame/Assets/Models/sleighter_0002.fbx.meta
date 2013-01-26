@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 43b2574395318fb4485ad01149cae272
+guid: a1829aa13eefb0d4c90841cc36e1fd75
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -10,9 +10,9 @@ ModelImporter:
     100008: polySurface2
     100010: //RootNode
     100012: sleighter_body_ctrl
-    100014: sleighter_jet_mesh
-    100016: sleighter_main_ctrl
-    100018: sleighter_mesh
+    100014: sleighter_body_mesh
+    100016: sleighter_jet_mesh
+    100018: sleighter_main_ctrl
     100020: sleighter_nose_ctrl
     400000: nose1_jnt
     400002: nose2_jnt
@@ -21,18 +21,18 @@ ModelImporter:
     400008: polySurface2
     400010: //RootNode
     400012: sleighter_body_ctrl
-    400014: sleighter_jet_mesh
-    400016: sleighter_main_ctrl
-    400018: sleighter_mesh
+    400014: sleighter_body_mesh
+    400016: sleighter_jet_mesh
+    400018: sleighter_main_ctrl
     400020: sleighter_nose_ctrl
     2300000: sleighter_jet_mesh
     3300000: sleighter_jet_mesh
-    4300000: sleighter_mesh
-    4300002: sleighter_jet_mesh
+    4300000: sleighter_jet_mesh
+    4300002: sleighter_body_mesh
     7400000: sleighter_fly
     9500000: //RootNode
     11100000: //RootNode
-    13700000: sleighter_mesh
+    13700000: sleighter_body_mesh
   materials:
     importMaterials: 1
     materialName: 0
@@ -67,29 +67,7 @@ ModelImporter:
       keepAdditionalBonesAnimation: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      skeletonMaskElements:
-      - path: 
-        weight: 1
-      - path: nose1_jnt
-        weight: 1
-      - path: nose1_jnt/nose2_jnt
-        weight: 1
-      - path: nose1_jnt/nose2_jnt/nose3_jnt
-        weight: 1
-      - path: pCube1
-        weight: 1
-      - path: pCube1/polySurface2
-        weight: 1
-      - path: pCube1/sleighter_mesh
-        weight: 1
-      - path: sleighter_main_ctrl
-        weight: 1
-      - path: sleighter_main_ctrl/sleighter_body_ctrl
-        weight: 1
-      - path: sleighter_main_ctrl/sleighter_jet_mesh
-        weight: 1
-      - path: sleighter_main_ctrl/sleighter_nose_ctrl
-        weight: 1
+      skeletonMaskElements: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []

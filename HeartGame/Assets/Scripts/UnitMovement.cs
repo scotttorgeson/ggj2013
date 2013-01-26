@@ -29,6 +29,8 @@ public class UnitMovement : MonoBehaviour {
 	
 	private float currentSpeed;
 	
+	public bool attacking;
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -48,10 +50,14 @@ public class UnitMovement : MonoBehaviour {
 		{
 			enemyBase = GameObject.FindGameObjectWithTag("PlayerBase");	
 		}
+		
+		attacking = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		attacking = false;
 		
 		if ( killTime < Time.time )
 		{
@@ -182,6 +188,8 @@ public class UnitMovement : MonoBehaviour {
 	
 	void Attack( GameObject enemy )
 	{
+		attacking = true;
+		
 		if ( nextAttackTime < Time.time )
 		{
 			// attack
