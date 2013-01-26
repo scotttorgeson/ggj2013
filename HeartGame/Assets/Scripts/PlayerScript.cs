@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class PlayerScript : MonoBehaviour {
-	private int lastFrameRotate = 0;
 	
 	public int currentMoney;
 	public int currentLife;
@@ -11,34 +10,49 @@ public class PlayerScript : MonoBehaviour {
 	public int startingLife = 10;
 	public Spawner[] spawnPoints;
 	
-	private float targetRotation = 0.0f;
+	private float targetRotation;
+	
+	public int[] upgradeCosts;
 	
 	// Use this for initialization
 	void Start () {
 		currentMoney = startingMoney;
 		currentLife = startingLife;
+		targetRotation = transform.eulerAngles.y;
 	}
 	
 	// Update is called once per frame
-	void Update () {		
-		var baseRotate = (int)Input.GetAxis("RotateBase");
-		
-		if(baseRotate != 0 && lastFrameRotate == 0){
-			
-			targetRotation += (float)baseRotate * 360/5;
+	void Update () 
+	{
+		UpdateRotation();
+	}
+	
+	private void UpdateRotation()
+	{
+		if ( Input.GetButtonDown("RotateBase") )
+		{
+			int rotateDirection = 0;
+			if ( Input.GetAxis ("RotateBase") > 0.0f )
+			{
+				targetRotation += 360/5;
+				rotateDirection = 1;
+			}
+			else
+			{
+				targetRotation -= 360/5;
+				rotateDirection = -1;
+			}
 			
 			
 			foreach(var spawn in spawnPoints){
-				spawn.Rotated(baseRotate);
+				spawn.Rotated(rotateDirection);
 			}
 		}
 		
 		//Rotate base
 		float rot = gameObject.transform.eulerAngles.y;
-		rot = Mathf.MoveTowards(rot, targetRotation, 1.0f);
+		rot = Mathf.MoveTowardsAngle(rot, targetRotation, 1.0f);
 		gameObject.transform.eulerAngles = new Vector3(0f, rot, 0f);
-		
-		lastFrameRotate = baseRotate;
 	}
 	
 	public void AddMoney(int amount){
@@ -50,5 +64,15 @@ public class PlayerScript : MonoBehaviour {
 		currentLife -= damage;
 		
 		// if ( currentLife <= 0 ) VictoryOrDefeat();
+	}
+	
+	public void Upgrade(Spawner spawner)
+	{
+		// if there are more tiers, and we have the money, upgrade the selected spawner
+		if ( spawner.unitSpawns.Count > spawner.tier + 1 && currentMoney > upgradeCosts[spawner.tier] )
+		{
+			currentMoney -= upgradeCosts[spawner.tier];
+			spawner.Upgrade();
+		}
 	}
 }

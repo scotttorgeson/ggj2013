@@ -40,6 +40,8 @@ public class Spawner : MonoBehaviour {
 	public void Upgrade()
 	{
 		if ( tier < unitSpawns.Count - 1 )
+		{
 			tier++;
+		}
 	}
 }

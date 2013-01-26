@@ -19,13 +19,9 @@ public class PlayerGUI : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-		
-		
-		UpdateSelection();		
-		
-		
+	void Update ()
+	{
+		UpdateSelection();
 	}
 	
 	void OnGUI()
@@ -36,7 +32,7 @@ public class PlayerGUI : MonoBehaviour {
 			if ( GUI.Button (upgradeButtonRect, upgradeButtonContent, upgradeButtonStyle) )
 			{
 				// upgrade selectedSpawner
-				selectedSpawner.GetComponent<Spawner>().Upgrade();
+				selectedSpawner.transform.parent.GetComponent<PlayerScript>().Upgrade( selectedSpawner.GetComponent<Spawner>() );
 			}
 		}
 		
