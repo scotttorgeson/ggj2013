@@ -13,10 +13,15 @@ public static class Utilities {
 		return retGobs.ToArray();
 	}
 	
-	public static bool MouseInRect(Rect rect)
+	public static bool MouseInRectGUI(Rect rect)
+	{
+		return rect.Contains( TranslateMouseForGUI() );
+	}
+	
+	public static Vector3 TranslateMouseForGUI()
 	{
 		Vector3 mousePosition = Input.mousePosition;
 		mousePosition.y = Screen.height - mousePosition.y;
-		return rect.Contains( mousePosition );
+		return mousePosition;
 	}
 }

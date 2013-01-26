@@ -42,7 +42,7 @@ public class PlayerGUI : MonoBehaviour {
 	
 	void UpdateSelection()
 	{
-		if ( selectedSpawner != null && Utilities.MouseInRect( upgradeButtonRect ) )
+		if ( selectedSpawner != null && Utilities.MouseInRectGUI( upgradeButtonRect ) )
 				return;
 		
 		if ( Input.GetButtonDown ("Fire1") )
