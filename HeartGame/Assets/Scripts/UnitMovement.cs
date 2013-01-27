@@ -45,24 +45,28 @@ public class UnitMovement : MonoBehaviour
 		attacking = false;
 	}
 	
-	void Awake()
-	{
-		isPlayerUnit = this.tag == "PlayerUnit";
-		
-		if (!DisableFogOfWar && !isPlayerUnit) {
-			HideGameObject (true, gameObject);	
-		}
-		
-		if (isPlayerUnit) {
-			enemyBase = GameObject.FindGameObjectWithTag ("EnemyBase");
-		} else {
-			enemyBase = GameObject.FindGameObjectWithTag ("PlayerBase");	
-		}
-	}
+	bool firstUpdate = true;
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		
+		if ( firstUpdate )
+		{
+			isPlayerUnit = this.tag == "PlayerUnit";
+		
+			if (!DisableFogOfWar && !isPlayerUnit) {
+				HideGameObject (true, gameObject);	
+			}
+			
+			if (isPlayerUnit) {
+				enemyBase = GameObject.FindGameObjectWithTag ("EnemyBase");
+			} else {
+				enemyBase = GameObject.FindGameObjectWithTag ("PlayerBase");	
+			}
+			
+			firstUpdate = false;
+		}
 		
 		attacking = false;
 		
