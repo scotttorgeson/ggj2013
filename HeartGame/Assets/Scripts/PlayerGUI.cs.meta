@@ -2,7 +2,12 @@ fileFormatVersion: 2
 guid: 72a88360f5974ac48968054886c2f0fe
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - selectionRing: {instanceID: 0}
+  - mapTexture: {instanceID: 0}
+  - iconTexture: {instanceID: 0}
+  - resourceTexture: {instanceID: 0}
+  - barTexture: {fileID: 2800000, guid: 7c60ba4ffa913d241848955d0cc30c31, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

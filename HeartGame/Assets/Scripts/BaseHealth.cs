@@ -5,7 +5,7 @@ public class BaseHealth : MonoBehaviour {
 	private int maxHealth = 0;
 	private static Vector3 barOffset = new Vector3(0, 5, 1);
 	private static Vector3 barSize = new Vector3(80, 10, 0);
-	private static Texture2D barTexture;
+	public Texture2D barTexture;
 	
 	// Use this for initialization
 	void Start () {

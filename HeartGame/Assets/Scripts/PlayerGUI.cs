@@ -21,16 +21,12 @@ public class PlayerGUI : MonoBehaviour
 	public Texture resourceTexture;
 	
 	private Rect mapRect;
-	private static Texture2D barTexture;
+	public Texture2D barTexture;
 	private int maxHealth;
 
 	// Use this for initialization
 	void Start ()
-	{		
-		if(barTexture==null) {
-			barTexture = new Texture2D(1,1);
-			barTexture.SetPixel(1,1,Color.white);
-		}
+	{
 	}
 	
 	// Update is called once per frame
