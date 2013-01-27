@@ -77,11 +77,15 @@ public class GameLoop : MonoBehaviour
 		}
 	}
 	
+	public Texture2D victoryImage;
+	public Texture2D defeatImage;
+	
 	void OnGUI () {
+		
 		//Check for end-game state
 		if (enemy.currentLife <= 0) {
 			//Win Game
-			GUI.Box (new Rect (10, 10, 100, 10), "You WIN!");
+			GUI.DrawTexture( new Rect( Screen.width * 0.25f, Screen.height * 0.2f, Screen.width * 0.5f, Screen.height * 0.5f ), victoryImage );
 			
 			if (GUI.Button (new Rect (20, 40, 80, 20), "New Game")) {
 				Application.LoadLevel (1);
@@ -92,7 +96,7 @@ public class GameLoop : MonoBehaviour
 			}
 		} else if (player.currentLife <= 0) {
 			//Lose Game
-			GUI.Box (new Rect (10, 10, 100, 10), "You LOSE!");
+			GUI.DrawTexture( new Rect( Screen.width * 0.25f, Screen.height * 0.2f, Screen.width * 0.5f, Screen.height * 0.5f ), defeatImage );
 			
 			if (GUI.Button (new Rect (20, 40, 80, 20), "New Game")) {
 				Application.LoadLevel (1);
