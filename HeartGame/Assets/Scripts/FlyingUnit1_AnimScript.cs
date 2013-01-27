@@ -18,7 +18,7 @@ public class FlyingUnit1_AnimScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if ( gameObject.GetComponent<UnitMovement>().attacking )
+		if ( gameObject.transform.parent.GetComponent<UnitMovement>().attacking )
 		{
 			animation.CrossFade( attack );
 		}
