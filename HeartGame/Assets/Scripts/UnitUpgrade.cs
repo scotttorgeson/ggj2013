@@ -10,4 +10,5 @@ public class UnitUpgrade : MonoBehaviour {
 	public GUIStyle upgradeButtonStyle;
 	public GUIContent upgradeButtonContent;
 	public Rect upgradeButtonRect;
+	public string unitName;
 }

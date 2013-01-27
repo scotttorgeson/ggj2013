@@ -2,13 +2,22 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour
-{
-	
+{	
 	public List<Path> pathes;
 	public int pathIndex = 0;
 	public const int pathCount = 5;
 	public string spawnTag;
 	public UnitUpgrade currentUpgrade;
+	
+	public string GetCurrentPathName()
+	{
+		if ( pathIndex < pathes.Count )
+		{
+			return pathes[pathIndex].pathName;
+		}
+		
+		return null;
+	}
 	
 	// Use this for initialization
 	void Start ()
@@ -37,8 +46,23 @@ public class Spawner : MonoBehaviour
 	{
 		pathIndex += direction;
 		if (pathIndex < 0)
-			pathIndex = pathCount - 1;
+			pathIndex = pathIndex += pathCount;
 		if (pathIndex >= pathCount)
-			pathIndex = 0;
+			pathIndex = pathIndex -= pathCount;
+	}
+	
+	public string PathIfRotated(int direction)
+	{
+		int testPathIndex = pathIndex + direction;
+		if (testPathIndex < 0)
+			testPathIndex = testPathIndex += pathCount;
+		if (testPathIndex >= pathCount)
+			testPathIndex = testPathIndex -= pathCount;
+		if ( testPathIndex < pathes.Count )
+		{
+			return pathes[testPathIndex].pathName;
+		}
+		
+		return null;
 	}
 }
