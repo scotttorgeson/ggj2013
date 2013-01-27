@@ -45,8 +45,14 @@ public class PlayerGUI : MonoBehaviour {
 	
 	void UpdateSelection()
 	{
-		if ( selectedSpawner != null && Utilities.MouseInRectGUI( upgradeButtonRect ) )
-				return;
+		if(selectedSpawner != null){
+			var spawner = selectedSpawner.GetComponent<Spawner>();
+			//display upgrade path selection
+			foreach(var upgrade in spawner.currentUpgrade.upgrades){
+				if( Utilities.MouseInRectGUI( upgrade.upgradeButtonRect ) ) 
+					return;
+			}
+		}
 		
 		if ( Input.GetButtonDown ("Fire1") )
 		{
