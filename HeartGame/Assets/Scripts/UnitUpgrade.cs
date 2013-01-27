@@ -11,4 +11,5 @@ public class UnitUpgrade : MonoBehaviour {
 	public GUIContent upgradeButtonContent;
 	public Rect upgradeButtonRect;
 	public string unitName;
+	public Color barrackColor;
 }

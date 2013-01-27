@@ -78,6 +78,7 @@ public class PlayerScript : MonoBehaviour {
 		{
 			currentMoney -= upgrade.cost;
 			spawner.currentUpgrade= upgrade;
+			spawner.transform.FindChild("Barrack").renderer.material.color = upgrade.barrackColor;
 		}
 	}
 }
