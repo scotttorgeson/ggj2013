@@ -18,10 +18,10 @@ public class UnitMovement : MonoBehaviour
 	public GameObject attackParticleEffect;
 	public Transform[] attackParticleEffectTransforms;
 	public GameObject deathParticleEffect;
+	public Transform deathEffectTransform;
 	public int health = 30;
 	public int damage = 10;
 	public float burstRadius = 0;
-	private float killTime = Mathf.Infinity;
 	private int takeDamage = 0;
 	private float lastPerceiveTime = -100.0f;
 	private GameObject enemyBase;
@@ -40,6 +40,13 @@ public class UnitMovement : MonoBehaviour
 		this.gameObject.transform.position = spawnPosition;
 		if ( path.nodes.Count > nodeIndex + 1 )
 			this.gameObject.transform.LookAt( path.nodes[nodeIndex+1].position );
+		
+		
+		attacking = false;
+	}
+	
+	void Awake()
+	{
 		isPlayerUnit = this.tag == "PlayerUnit";
 		
 		if (!DisableFogOfWar && !isPlayerUnit) {
@@ -51,8 +58,6 @@ public class UnitMovement : MonoBehaviour
 		} else {
 			enemyBase = GameObject.FindGameObjectWithTag ("PlayerBase");	
 		}
-		
-		attacking = false;
 	}
 	
 	// Update is called once per frame
@@ -60,10 +65,6 @@ public class UnitMovement : MonoBehaviour
 	{
 		
 		attacking = false;
-		
-		if (killTime < Time.time) {
-			GameObject.Destroy (gameObject);	
-		}
 		
 		if (health <= 0)
 			return;
@@ -293,10 +294,11 @@ public class UnitMovement : MonoBehaviour
 					
 					if ( deathParticleEffect != null )
 					{
-						GameObject effect = (GameObject)Instantiate (deathParticleEffect, this.transform.position, this.transform.rotation);
+						GameObject effect = (GameObject)Instantiate (deathParticleEffect, deathEffectTransform.position, this.transform.rotation);
 						GameObject.Destroy (effect, 1.0f);
 					}
-					killTime = Time.time + 0.2f;
+					
+					GameObject.Destroy( gameObject );
 				}
 			}
 		}
