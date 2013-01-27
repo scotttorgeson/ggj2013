@@ -299,6 +299,63 @@ public class EnemyAI : MonoBehaviour {
 		}
 	}
 	
+	public int clusterSearchCount = 10;
+	public int clusterSize = 10;
+	public float clusterRadius = 100.0f;
+	
+	GameObject[] FindCluster(string tag)
+	{
+		GameObject[] units = GameObject.FindGameObjectsWithTag(tag);
+		for ( int i = 0; i < clusterSearchCount; i++ )
+		{
+			int index = Random.Range(0, units.Length);
+			GameObject[] cluster = Utilities.FindObjectsWithinRange(units[index].transform.position, tag, clusterRadius);
+			
+			if ( cluster.Length > clusterSize )
+				return cluster;
+		}
+		
+		return null; // no cluster found
+	}
+	
+	void CheckSuperPowers()
+	{
+		string enemyTag = tag == "PlayerBase" ? "EnemyUnit" : "PlayerUnit";
+		string friendlyTag = tag == "PlayerBase" ? "PlayerUnit" : "EnemyUnit";
+		
+		
+		float whatPower = Random.value * 100.0f;
+		
+		bool usedPower = false;
+		if ( whatPower > 66 )
+		{
+			// try enemy cluster
+			GameObject[] enemyCluster = FindCluster(enemyTag);
+		}
+		 if ( ( whatPower < 66 && whatPower > 33 ) || !usedPower )
+		{
+			// try friendly cluster	
+			GameObject[] friendlyCluster = FindCluster(tag);
+		}
+		
+		if ( !usedPower )
+		{
+			// try buff/stall
+			whatPower = Random.value * 100.0f;
+			
+			if ( whatPower > 50 )
+			{
+				// buff	
+			}
+			else
+			{
+				// stall	
+			}
+		}
+		
+		
+	}
+	
 	void Act()
 	{
 		if ( nextActTime < Time.time )
@@ -307,6 +364,7 @@ public class EnemyAI : MonoBehaviour {
 			UpdateScores();
 			CheckRotate();
 			CheckUpgrade();
+			CheckSuperPowers();
 		}
 	}
 }
