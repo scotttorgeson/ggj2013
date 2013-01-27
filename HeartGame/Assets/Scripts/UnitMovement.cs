@@ -27,6 +27,8 @@ public class UnitMovement : MonoBehaviour
 	private float currentSpeed;
 	public bool attacking;
 	
+	public static bool DisableFogOfWar = true;
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -35,7 +37,7 @@ public class UnitMovement : MonoBehaviour
 			this.gameObject.transform.LookAt( path.nodes[nodeIndex+1].position );
 		isPlayerUnit = this.tag == "PlayerUnit";
 		
-		if (!isPlayerUnit) {
+		if (!DisableFogOfWar && !isPlayerUnit) {
 			HideGameObject (true, gameObject);	
 		}
 		
@@ -108,7 +110,7 @@ public class UnitMovement : MonoBehaviour
 		
 		TakeDamage ();
 		
-		if (!isPlayerUnit) {
+		if (!DisableFogOfWar && !isPlayerUnit) {
 			HideGameObject (Time.time - lastPerceiveTime < 3.0f, gameObject);
 		}
 	}
