@@ -381,15 +381,20 @@ public class EnemyAI : MonoBehaviour {
 			GameObject cluster = FindCluster(friendlyTag);
 			if ( cluster != null )
 			{
-				if ( Random.value > 0.5f )
+				var rand = Random.value;
+				if ( rand > 0.3f )
 				{
 					// heal
 					SuperPowers.UsePower( ourPlayerScript, healPowerObject, cluster.transform.position, normalCooldown );
 				}
-				else
+				else if (rand > 0.6f )
 				{
 					// haste	
 					SuperPowers.UsePower( ourPlayerScript, hastePowerObject, cluster.transform.position, normalCooldown );
+				}
+				else {
+					// buff	
+					SuperPowers.UsePower( ourPlayerScript, buffPowerObject, cluster.transform.position, normalCooldown );
 				}
 				
 				usedPower = true;
@@ -398,19 +403,9 @@ public class EnemyAI : MonoBehaviour {
 		
 		if ( !usedPower )
 		{
-			// try buff/stall			
-			if ( Random.value > 0.5f )
-			{
-				// buff	
-				SuperPowers.UsePower( ourPlayerScript, buffPowerObject, Vector3.zero, normalCooldown );
-			}
-			else
-			{
-				// stall
-				Debug.Log( tag + " used stall" );
-				SuperPowers.UsePower( ourPlayerScript, stallPowerObject, Vector3.zero, stallCooldown );
-			}
-			
+			// stall
+			Debug.Log( tag + " used stall" );
+			SuperPowers.UsePower( ourPlayerScript, stallPowerObject, Vector3.zero, stallCooldown );			
 		}
 	}
 	
