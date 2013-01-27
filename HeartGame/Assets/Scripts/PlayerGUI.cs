@@ -74,8 +74,16 @@ public class PlayerGUI : MonoBehaviour
 			GUI.DrawTexture (new Rect (mapPos.x, mapPos.y, iconSize, iconSize),
 				iconTexture);
 		}
+		
+		GUI.color = Color.yellow;
+		foreach(var player in GameObject.FindObjectsOfType(typeof(PlayerScript))){
+			var mapPos = getMapPos (((PlayerScript)player).gameObject.transform.position);
+			GUI.DrawTexture (new Rect (mapPos.x, mapPos.y, iconSize, iconSize),
+				iconTexture);
+		}
 		GUI.EndGroup ();
-					
+		
+		GUI.color = Color.white;					
 		if (selectedSpawner != null) {
 			var spawner = selectedSpawner.GetComponent<Spawner> ();
 			if (spawner != null && spawner.currentUpgrade != null) {
@@ -88,7 +96,6 @@ public class PlayerGUI : MonoBehaviour
 			}
 		}
 		
-		GUI.color = Color.white;
 		
 		int resourceCount = gameObject.GetComponent<PlayerScript> ().currentMoney;
 		GUI.TextArea (resourceTextRect, resourceCount.ToString (), resourceTextStyle);
@@ -105,7 +112,7 @@ public class PlayerGUI : MonoBehaviour
 			}
 		}
 		
-		if (Input.GetButtonDown ("Fire1")) {
+		if(Input.GetMouseButton(0)) {
 			if(Utilities.MouseInRectGUI(mapRect)) {
 				var target = getWorldPos((Vector2)Utilities.TranslateMouseForGUI() - new Vector2(mapRect.x, mapRect.y));
 				//Yay - time for magic numbers
