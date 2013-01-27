@@ -26,7 +26,7 @@ public struct UpdateEnemyInfo
 }
 
 public class EnemyAI : MonoBehaviour {	
-	
+	public static int difficulty;
 	public PlayerScript enemyPlayerScript;
 	public PlayerScript ourPlayerScript;
 	
