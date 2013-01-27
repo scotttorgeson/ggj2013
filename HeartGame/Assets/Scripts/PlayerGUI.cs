@@ -53,7 +53,6 @@ public class PlayerGUI : MonoBehaviour
 	
 	void OnGUI ()
 	{		
-		GUI.color = new Color(1,1,1,0.6f);
 		GUI.BeginGroup (mapRect);
 		GUI.Box (new Rect(0, 0, 100000,100000), "");
 		var icons = GameObject.FindGameObjectsWithTag ("EnemyUnit");
