@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour
 	{
 		if (pathIndex < pathes.Count) {
 			for (int i=0; i<currentUpgrade.spawnNumber; i++) {
-				currentUpgrade.spawnUnit.tag = spawnTag;
+				currentUpgrade.spawnUnit.tag = spawnTag;				
 				GameObject newUnit = (GameObject)Instantiate (currentUpgrade.spawnUnit, transform.position, transform.rotation);
 				newUnit.name += pathIndex;
 				UnitMovement unitMovement = newUnit.GetComponent<UnitMovement> ();

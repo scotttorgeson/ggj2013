@@ -32,7 +32,11 @@ public class UnitMovement : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		this.gameObject.transform.position = path.nodes [nodeIndex].position;
+		
+		Vector3 spawnPosition = path.nodes[nodeIndex].position;
+		spawnPosition.x += Random.Range(3.0f, 15.0f);
+		spawnPosition.z += Random.Range(3.0f, 15.0f);
+		this.gameObject.transform.position = spawnPosition;
 		if ( path.nodes.Count > nodeIndex + 1 )
 			this.gameObject.transform.LookAt( path.nodes[nodeIndex+1].position );
 		isPlayerUnit = this.tag == "PlayerUnit";
