@@ -10,7 +10,6 @@ public class PlayerGUI : MonoBehaviour
 	public GUIContent upgradeButtonContent;
 	public Rect upgradeButtonRect;
 	public GUIStyle resourceTextStyle;
-	public Rect resourceTextRect;
 	public GUIStyle mapStyle;
 	public Vector2 mapSize = new Vector2 (256, 384);
 	public Rect sceneSize = new Rect (-1037, -277, 2048, 3072);
@@ -18,17 +17,27 @@ public class PlayerGUI : MonoBehaviour
 	public Color enemyColor = Color.red;
 	public Color friendlyColor = Color.blue;
 	public Texture iconTexture;
+	public Texture resourceTexture;
 	
 	private Rect mapRect;
+	private static Texture2D barTexture;
+	private int maxHealth;
 
 	// Use this for initialization
 	void Start ()
-	{
+	{		
+		if(barTexture==null) {
+			barTexture = new Texture2D(1,1);
+			barTexture.SetPixel(1,1,Color.white);
+		}
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		if(maxHealth==0){
+			maxHealth = gameObject.GetComponent<PlayerScript>().currentLife;
+		}
 		mapRect = new Rect (Screen.width - mapSize.x - 10, Screen.height - mapSize.y - 10, mapSize.x, mapSize.y);
 		UpdateSelection ();
 	}
@@ -52,7 +61,7 @@ public class PlayerGUI : MonoBehaviour
 	}
 	
 	void OnGUI ()
-	{		
+	{
 		GUI.BeginGroup (mapRect);
 		GUI.Box (new Rect(0, 0, 100000,100000), "");
 		var icons = GameObject.FindGameObjectsWithTag ("EnemyUnit");
@@ -82,6 +91,7 @@ public class PlayerGUI : MonoBehaviour
 		}
 		GUI.EndGroup ();
 		
+		
 		GUI.color = Color.white;					
 		if (selectedSpawner != null) {
 			var spawner = selectedSpawner.GetComponent<Spawner> ();
@@ -95,9 +105,24 @@ public class PlayerGUI : MonoBehaviour
 			}
 		}
 		
-		
+		drawResourceHUD();
+	}
+	
+	void drawResourceHUD(){
+		if(maxHealth > 0){
+			int currHealth = gameObject.GetComponent<PlayerScript>().currentLife;
+			
+			var rect = new Rect(149, 54, 162, 23);
+			GUI.color = new Color(1, 0.9f, 0.9f, 0.7f);
+			GUI.DrawTexture(rect, barTexture);
+			rect.width *= (currHealth / maxHealth);
+			GUI.color = Color.red;
+			GUI.DrawTexture(rect, barTexture);
+			GUI.color = Color.white;
+		}
+		GUI.DrawTexture(new Rect(10, 0, 320, 180), resourceTexture);
 		int resourceCount = gameObject.GetComponent<PlayerScript> ().currentMoney;
-		GUI.TextArea (resourceTextRect, resourceCount.ToString (), resourceTextStyle);
+		GUI.TextArea (new Rect(190, 105, 82, 25), resourceCount.ToString (), resourceTextStyle);
 	}
 	
 	void UpdateSelection ()
