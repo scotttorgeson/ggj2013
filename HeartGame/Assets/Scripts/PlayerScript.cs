@@ -29,30 +29,35 @@ public class PlayerScript : MonoBehaviour {
 	
 	private void UpdateRotation()
 	{
-		if ( Input.GetButtonDown("RotateBase") )
+		if ( this.tag == "PlayerBase" && Input.GetButtonDown("RotateBase") )
 		{
 			int rotateDirection = 0;
 			if ( Input.GetAxis ("RotateBase") > 0.0f )
 			{
-				targetRotation += 360/5;
 				rotateDirection = 1;
 			}
 			else
-			{
-				targetRotation -= 360/5;
+			{		
 				rotateDirection = -1;
 			}
 			
-			
-			foreach(var spawn in spawnPoints){
-				spawn.Rotated(rotateDirection);
-			}
+			RotateDirection( rotateDirection );
 		}
 		
 		//Rotate base
 		float rot = gameObject.transform.eulerAngles.y;
 		rot = Mathf.MoveTowardsAngle(rot, targetRotation, 3.0f);
 		gameObject.transform.eulerAngles = new Vector3(0f, rot, 0f);
+	}
+	
+	public void RotateDirection(int direction)
+	{
+		targetRotation += 360 / 5 * direction;
+		
+		foreach(var spawn in spawnPoints)
+		{
+			spawn.Rotated(direction);
+		}
 	}
 	
 	public void AddMoney(int amount){
