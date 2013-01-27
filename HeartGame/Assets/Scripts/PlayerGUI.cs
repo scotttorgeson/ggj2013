@@ -68,7 +68,7 @@ public class PlayerGUI : MonoBehaviour
 		if (selectedSpawner != null) {
 			var spawner = selectedSpawner.GetComponent<Spawner> ();
 			if (spawner != null && spawner.currentUpgrade != null) {
-				GUILayout.BeginArea(new Rect(400, 10, 60, 400));
+				GUILayout.BeginArea(new Rect(400, 10, 140, 340));
 				GUILayout.BeginVertical();
 				//display upgrade path selection
 				foreach (var upgrade in spawner.currentUpgrade.upgrades) {
@@ -136,7 +136,7 @@ public class PlayerGUI : MonoBehaviour
 	void UpdateSelection ()
 	{
 		if (selectedSpawner != null) {
-			if (Utilities.MouseInRectGUI (new Rect(400, 10, 60, 200))) 
+			if (Utilities.MouseInRectGUI (new Rect(400, 10, 60, 340))) 
 				return;
 		}
 		

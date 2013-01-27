@@ -1,21 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UnitMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerGUI.cs">
     <Files>
-      <File FileName="Assets\Scripts\UnitMovement.cs" Line="103" Column="14" />
-      <File FileName="Assets\Scripts\GameLoop.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Spawner.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerGUI.cs" Line="139" Column="57" />
+      <File FileName="Assets\Scripts\Powers\UnitAbility.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Powers\BombAbility.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Powers\BuffAbility.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyAI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Bullet.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SkipSpawnScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Powers\DelaySpawn.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SuperPowers.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Spawner.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UnitMovement.cs" Line="33" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\Scott\Documents\GitHub\ggj2013\HeartGame\Assets\Scripts\UnitMovement.cs" line="103" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
