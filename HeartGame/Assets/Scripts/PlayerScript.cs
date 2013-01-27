@@ -67,6 +67,24 @@ public class PlayerScript : MonoBehaviour {
 	}
 	
 	public void AddMoney(int amount){
+		EnemyAI ai = GetComponent<EnemyAI>();
+		
+		if ( ai != null )
+		{
+			float fAmount = amount;
+			
+			if ( EnemyAI.difficulty == 0 )
+			{
+				fAmount *= 0.8f;	
+			}
+			
+			if ( EnemyAI.difficulty == 2 )
+			{
+				fAmount *= 1.2f;	
+			}
+			
+			amount = (int)fAmount;
+		}
 		currentMoney += amount;
 	}
 	
