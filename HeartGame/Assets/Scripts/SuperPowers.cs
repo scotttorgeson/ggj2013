@@ -10,6 +10,7 @@ public class SuperPowers : MonoBehaviour
 	public Rect bombButtonRect;
 	public GameObject aimPreview;
 	public PlayerScript source;
+	public float cooldown;
 	
 	private GameObject targetPreview;
 	
@@ -28,7 +29,7 @@ public class SuperPowers : MonoBehaviour
 			RaycastHit hit;
 			if ( Physics.Raycast( ray, out hit, Mathf.Infinity, 1 << 10 ) )
 			{
-				UsePower( source, bombSuperPower, hit.point );					
+				UsePower( source, bombSuperPower, hit.point, cooldown );					
 			}
 			
 			if(targetPreview !=null){
@@ -38,11 +39,11 @@ public class SuperPowers : MonoBehaviour
 		}
 	}
 	
-	public static void UsePower(PlayerScript sourcePlayer, GameObject power, Vector3 position)
+	public static void UsePower(PlayerScript sourcePlayer, GameObject power, Vector3 position, float powerCooldownTime)
 	{
 		if( Mathf.Approximately(sourcePlayer.powerCooldownTimer, 0.0f) )
 		{
-			sourcePlayer.powerCooldownTimer = sourcePlayer.powerCooldownTime;
+			sourcePlayer.powerCooldownTimer = sourcePlayer.powerCooldownTime = powerCooldownTime;
 			Instantiate( power, position + new Vector3(0.0f, 2.0f, 0.0f), Quaternion.identity );
 		}
 	}
