@@ -12,6 +12,13 @@ public class PlayerGUI : MonoBehaviour {
 	
 	public GUIStyle resourceTextStyle;
 	public Rect resourceTextRect;
+	
+	public GUIStyle mapStyle;
+	public Vector2 mapSize = new Vector2(128, 512);
+	public Rect sceneSize = new Rect(-250, 225, 400, 1575);
+	public float iconSize = 3;
+	public GUIStyle enemyStyle;
+	public GUIStyle friendlyStyle;
 
 	// Use this for initialization
 	void Start () {
@@ -24,10 +31,29 @@ public class PlayerGUI : MonoBehaviour {
 		UpdateSelection();
 	}
 	
+	Vector2 getMapPos(Rect mapRect, Vector3 worldPos){
+		return new Vector2((worldPos.x - sceneSize.x)/sceneSize.width,
+			mapRect.height - (worldPos.z - sceneSize.y)/sceneSize.height);
+	}
+	
 	void OnGUI()
-	{		
-		if ( selectedSpawner != null )
-		{
+	{
+		var mapRect = new Rect(Screen.width - mapSize.x, Screen.height - mapSize.y, mapSize.x, mapSize.y);
+		GUI.BeginGroup(mapRect, mapStyle);
+		var icons = GameObject.FindGameObjectsWithTag("EnemyUnit");
+		foreach(var icon in icons){
+			var mapPos = getMapPos(mapRect, icon.transform.position);
+			GUI.Box (new Rect(mapRect.x + mapPos.x, mapRect.y + mapPos.y, iconSize, iconSize), "", enemyStyle);
+		}		
+				
+		icons = GameObject.FindGameObjectsWithTag("EnemyUnit");
+		foreach(var icon in icons){
+			var mapPos = getMapPos(mapRect, icon.transform.position);
+			GUI.Box (new Rect(mapRect.x + mapPos.x, mapRect.y + mapPos.y, iconSize, iconSize), "", friendlyStyle);
+		}
+		GUI.EndGroup();
+					
+		if ( selectedSpawner != null ){
 			var spawner = selectedSpawner.GetComponent<Spawner>();
 			if(spawner!=null && spawner.currentUpgrade!=null){
 				//display upgrade path selection
