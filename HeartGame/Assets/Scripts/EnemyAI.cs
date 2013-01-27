@@ -317,7 +317,7 @@ public class EnemyAI : MonoBehaviour {
 	}
 	
 	public int clusterSearchCount = 10;
-	public int clusterSize = 10;
+	public int clusterSize = 5;
 	public float clusterRadius = 100.0f;
 	
 	public GameObject bombPowerObject;
