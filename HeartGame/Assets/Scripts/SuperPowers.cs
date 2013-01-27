@@ -51,6 +51,13 @@ public class SuperPowers : MonoBehaviour
 		if(GUI.Button(bombButtonRect, bombButtonContent, bombButtonStyle)){
 			targetPreview = (GameObject)Instantiate( aimPreview, Vector3.zero, Quaternion.identity );
 		}
+		var player = GameObject.Find("PlayerBase").GetComponent<PlayerScript>();
+		if(player.powerCooldownTimer > 0){
+			Rect shadeRect = bombButtonRect;
+			shadeRect.y += shadeRect.height - shadeRect.height * (player.powerCooldownTimer / player.powerCooldownTime);
+			shadeRect.height = shadeRect.height * (player.powerCooldownTimer / player.powerCooldownTime);
+			GUI.Box (shadeRect, bombButtonStyle);
+		}		
 		if(targetPreview != null){
 			//Draw targetting thingamajig
 			Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
