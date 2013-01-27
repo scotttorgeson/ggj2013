@@ -16,6 +16,7 @@ public class UnitMovement : MonoBehaviour
 	private GameObject targetEnemy = null;
 	private float nextAttackTime = 0.0f;
 	public GameObject attackParticleEffect;
+	public Transform[] attackParticleEffectTransforms;
 	public GameObject deathParticleEffect;
 	public int health = 30;
 	public int damage = 10;
@@ -238,10 +239,15 @@ public class UnitMovement : MonoBehaviour
 			
 			if ( attackParticleEffect != null )
 			{
-				GameObject effect = (GameObject)Instantiate (attackParticleEffect, this.transform.position, this.transform.rotation);
-				effect.transform.parent = gameObject.transform;
-				effect.transform.localPosition = new Vector3 (0.0f, 0.0f, 1.0f);
-				GameObject.Destroy (effect, 1.0f);
+				foreach ( Transform t in attackParticleEffectTransforms )
+				{
+					GameObject effect = (GameObject)Instantiate (attackParticleEffect, t.position, t.rotation);
+					Bullet bullet = effect.GetComponent<Bullet>();
+					if ( bullet != null )
+					{
+						bullet.SetTarget(enemy.transform.position);	
+					}
+				}
 			}
 			nextAttackTime = Time.time + attackInterval;
 		}
@@ -252,15 +258,25 @@ public class UnitMovement : MonoBehaviour
 		takeDamage += damage;
 	}
 	
+	bool playedDeathEffect = false;
+	
 	void TakeDamage ()
 	{
 		if (health > 0 && takeDamage > 0) {
 			health -= takeDamage;
 			
 			if (health <= 0) {
-				GameObject effect = (GameObject)Instantiate (deathParticleEffect, this.transform.position, this.transform.rotation);
-				GameObject.Destroy (effect, 1.0f);
-				killTime = Time.time + 1.0f;
+				if (!playedDeathEffect)
+				{
+					playedDeathEffect = true;
+					
+					if ( deathParticleEffect != null )
+					{
+						GameObject effect = (GameObject)Instantiate (deathParticleEffect, this.transform.position, this.transform.rotation);
+						GameObject.Destroy (effect, 1.0f);
+					}
+					killTime = Time.time + 0.2f;
+				}
 			}
 		}
 		
