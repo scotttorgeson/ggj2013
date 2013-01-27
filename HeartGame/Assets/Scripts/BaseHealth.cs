@@ -28,7 +28,7 @@ public class BaseHealth : MonoBehaviour {
 			var rect = new Rect(camPos.x, camPos.y, barSize.x, barSize.y);
 			GUI.color = new Color(1, 0.9f, 0.9f, 0.7f);
 			GUI.DrawTexture(rect, barTexture);
-			rect.width *= (move.currentLife / maxHealth);
+			rect.width *= ((float)move.currentLife / maxHealth);
 			GUI.color = Color.red;
 			GUI.DrawTexture(rect, barTexture);
 			GUI.color = Color.white;
