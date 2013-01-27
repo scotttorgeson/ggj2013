@@ -17,7 +17,7 @@ public class SuperPowers : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	
+		bombButtonRect.y = Screen.height - 20 - bombButtonRect.height;		
 	}
 	
 	// Update is called once per frame
