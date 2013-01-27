@@ -68,12 +68,17 @@ public class PlayerGUI : MonoBehaviour
 		if (selectedSpawner != null) {
 			var spawner = selectedSpawner.GetComponent<Spawner> ();
 			if (spawner != null && spawner.currentUpgrade != null) {
+				GUILayout.BeginArea(new Rect(400, 10, 60, 400));
+				GUILayout.BeginVertical();
 				//display upgrade path selection
 				foreach (var upgrade in spawner.currentUpgrade.upgrades) {
-					if (GUI.Button (upgrade.upgradeButtonRect, upgrade.upgradeButtonContent, upgrade.upgradeButtonStyle)) {
+					if (GUILayout.Button(upgrade.upgradeButtonContent, upgrade.upgradeButtonStyle)) {
 						gameObject.GetComponent<PlayerScript> ().Upgrade (spawner, upgrade);
 					}
+					GUILayout.Space(10);
 				}
+				GUILayout.EndVertical();
+				GUILayout.EndArea();
 			}
 		}
 		
