@@ -212,6 +212,14 @@ public class EnemyAI : MonoBehaviour {
 				worstIndex = i;
 				worstScore = pathScores[i];
 			}
+			else if ( Mathf.Approximately( pathScores[i], worstScore ) )
+			{
+				if ( Random.value > 0.5f )
+				{
+					worstIndex = i;
+					worstScore = pathScores[i];
+				}
+			}
 		}
 		
 		if ( !TryToUpgradePath(worstIndex) ) // try the worst scored path
@@ -220,7 +228,7 @@ public class EnemyAI : MonoBehaviour {
 		}
 	}
 	
-	bool TryToUpgradePath(int pathIndex) // true if they should try again with another path
+	bool TryToUpgradePath(int pathIndex) // false if they should try again with another path
 	{
 		string thePathName = null;
 		
@@ -274,7 +282,7 @@ public class EnemyAI : MonoBehaviour {
 			}
 			
 			if ( chosenUpgrade == null )
-				return true;
+				return false;
 			
 			if ( chosenUpgrade.cost < ourPlayerScript.currentMoney )
 			{
@@ -282,7 +290,7 @@ public class EnemyAI : MonoBehaviour {
 				ourPlayerScript.Upgrade(spawner, chosenUpgrade);
 			}
 			
-			return false;
+			return true;
 		}
 		else
 		{
