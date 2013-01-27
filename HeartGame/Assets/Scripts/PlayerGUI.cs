@@ -24,7 +24,6 @@ public class PlayerGUI : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	
 	}
 	
 	// Update is called once per frame
@@ -36,14 +35,20 @@ public class PlayerGUI : MonoBehaviour
 	
 	Vector2 getMapPos (Vector3 worldPos)
 	{
-		return new Vector2 ((worldPos.x - sceneSize.x) * mapRect.width / sceneSize.width,
-			mapRect.height - (worldPos.z - sceneSize.y) * mapRect.height / sceneSize.height);
+		Vector3 absMapPos = new Vector3 ((worldPos.x - sceneSize.x)/sceneSize.width - 0.5f,(worldPos.z - sceneSize.y) / sceneSize.height - 0.5f, 0);
+		absMapPos = Quaternion.AngleAxis(-40, Vector3.up) * absMapPos;
+		absMapPos += new Vector3(0.5f, 0, 0.5f);
+		absMapPos = new Vector3 (absMapPos.x * sceneSize.width, absMapPos.z * sceneSize.height, 0);
+		return absMapPos;
 	}
 	
 	Vector3 getWorldPos (Vector2 mapPos){
-		return new Vector3 (mapPos.x * sceneSize.width / mapRect.width + sceneSize.x,
-			0,
-			sceneSize.y + (mapRect.height-mapPos.y) * sceneSize.height / mapRect.height);
+		Vector3 tmp = new Vector3(mapPos.x / mapRect.width - 0.5f, 0, 
+			mapPos.y / mapRect.height - 0.5f);
+		tmp = Quaternion.AngleAxis(40, Vector3.up) * tmp;
+		tmp = new Vector3((tmp.x + 0.5f) * sceneSize.width + sceneSize.x, 0,
+			(tmp.y+0.5f) * sceneSize.height + sceneSize.y);
+		return tmp;
 	}
 	
 	void OnGUI ()
