@@ -122,9 +122,30 @@ public class UnitMovement : MonoBehaviour
 	
 	public bool IsVisible ()
 	{
-		if(gameObject.renderer == null)
-			return false;
-		return gameObject.renderer.enabled;
+		if(gameObject.renderer != null && gameObject.renderer.enabled)
+			return true;
+		
+		foreach ( Transform child in transform )
+		{
+			if ( IsVisible( child.gameObject ) )
+				return true;
+		}
+		
+		return false;
+	}
+	
+	private bool IsVisible( GameObject checkMe )
+	{
+		if(checkMe.renderer != null && checkMe.renderer.enabled)
+			return true;
+		
+		foreach ( Transform child in checkMe.transform )
+		{
+			if ( IsVisible( child.gameObject ) )
+				return true;
+		}
+		
+		return false;
 	}
 	
 	void HideGameObject (bool hide, GameObject hideMe)

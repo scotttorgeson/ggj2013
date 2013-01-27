@@ -23,7 +23,7 @@ public abstract class UnitAbility : MonoBehaviour {
 				ApplyEffect(unit);
 			}
 		}
-		Debug.Log (System.String.Format("UnitAbility Start({0}) affected {1} units with radius {2}", this, targetList.Count, bombRadius));
+		Debug.Log (System.String.Format("UnitAbility Start({0}) affected {1} units with radius {2} {3}", this, targetList.Count, bombRadius, playerTag));
 	}
 	
 	// Update is called once per frame

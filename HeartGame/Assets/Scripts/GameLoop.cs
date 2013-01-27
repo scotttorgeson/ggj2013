@@ -15,6 +15,43 @@ public class GameLoop : MonoBehaviour
 	public bool skipPlayerSpawn = false;
 	public bool skipEnemySpawn = false;
 	
+	public void SkipPlayerSpawn()
+	{
+		Transform t = player.transform.FindChild("SkipSpawnSphere");
+		if ( t != null )
+		{
+			t.gameObject.renderer.enabled = true;	
+		}
+		
+		skipPlayerSpawn = true;
+	}
+	
+	public void SkipEnemySpawn()
+	{
+		Transform t = enemy.transform.FindChild("SkipSpawnSphere");
+		if ( t != null )
+		{
+			t.gameObject.renderer.enabled = true;	
+		}
+		
+		skipEnemySpawn = true;
+	}
+	
+	void TurnOffSpawnSpheres()
+	{
+		Transform t = player.transform.FindChild("SkipSpawnSphere");
+		if ( t != null )
+		{
+			t.gameObject.renderer.enabled = false;
+		}
+		
+		t = enemy.transform.FindChild("SkipSpawnSphere");
+		if ( t != null )
+		{
+			t.gameObject.renderer.enabled = false;	
+		}
+	}
+	
 	// Use this for initialization
 	void Start () {
 		nextSpawnTime = Time.time + spawnTimerDelay;
@@ -79,6 +116,7 @@ public class GameLoop : MonoBehaviour
 			}
 		}
 		skipPlayerSpawn = skipEnemySpawn = false;
+		TurnOffSpawnSpheres();
 	}
 	
 	void GiveMoney () {

@@ -8,8 +8,8 @@ public class DelaySpawn : MonoBehaviour {
 	void Start () {
 		GameLoop target = (GameLoop)GameObject.FindObjectOfType(typeof(GameLoop));
 		if(targetPlayer)
-			target.skipPlayerSpawn = true;
+			target.SkipPlayerSpawn();
 		else
-			target.skipEnemySpawn = true;		
+			target.SkipEnemySpawn();
 	}
 }

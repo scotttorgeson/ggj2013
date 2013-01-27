@@ -317,7 +317,7 @@ public class EnemyAI : MonoBehaviour {
 	}
 	
 	public int clusterSearchCount = 10;
-	public int clusterSize = 10;
+	public int clusterSize = 5;
 	public float clusterRadius = 100.0f;
 	
 	public GameObject bombPowerObject;
@@ -378,7 +378,7 @@ public class EnemyAI : MonoBehaviour {
 		 if ( ( whatPower < 0.66f && whatPower > 0.33f ) || !usedPower )
 		{
 			// try friendly cluster	
-			GameObject cluster = FindCluster(tag);
+			GameObject cluster = FindCluster(friendlyTag);
 			if ( cluster != null )
 			{
 				if ( Random.value > 0.5f )
