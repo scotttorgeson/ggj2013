@@ -80,31 +80,25 @@ public class GameLoop : MonoBehaviour
 	public Texture2D victoryImage;
 	public Texture2D defeatImage;
 	
+	void endGame(Texture2D image) {
+		GUI.DrawTexture( new Rect( Screen.width * 0.25f, Screen.height * 0.2f, Screen.width * 0.5f, Screen.height * 0.5f ), image );
+		
+		if (GUI.Button (new Rect (Screen.width * 0.5f - 250, Screen.height * 0.6f + 50, 200, 40), "New Game")) {
+			Application.LoadLevel (1);
+		}
+		
+		if (GUI.Button (new Rect (Screen.width * 0.5f + 50, Screen.height * 0.6f + 50, 200, 40), "Main Menu")) {
+			Application.LoadLevel (0);
+		}
+	}
+	
 	void OnGUI () {
 		
 		//Check for end-game state
 		if (enemy.currentLife <= 0) {
-			//Win Game
-			GUI.DrawTexture( new Rect( Screen.width * 0.25f, Screen.height * 0.2f, Screen.width * 0.5f, Screen.height * 0.5f ), victoryImage );
-			
-			if (GUI.Button (new Rect (20, 40, 80, 20), "New Game")) {
-				Application.LoadLevel (1);
-			}
-			
-			if (GUI.Button (new Rect (20, 80, 80, 20), "Main Menu")) {
-				Application.LoadLevel (0);
-			}
+			endGame(victoryImage);
 		} else if (player.currentLife <= 0) {
-			//Lose Game
-			GUI.DrawTexture( new Rect( Screen.width * 0.25f, Screen.height * 0.2f, Screen.width * 0.5f, Screen.height * 0.5f ), defeatImage );
-			
-			if (GUI.Button (new Rect (20, 40, 80, 20), "New Game")) {
-				Application.LoadLevel (1);
-			}
-			
-			if (GUI.Button (new Rect (20, 80, 80, 20), "Main Menu")) {
-				Application.LoadLevel (0);
-			}
+			endGame(defeatImage);
 		}
 	}
 	
