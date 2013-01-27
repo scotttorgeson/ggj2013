@@ -136,12 +136,8 @@ public class PlayerGUI : MonoBehaviour
 	void UpdateSelection ()
 	{
 		if (selectedSpawner != null) {
-			var spawner = selectedSpawner.GetComponent<Spawner> ();
-			//display upgrade path selection
-			foreach (var upgrade in spawner.currentUpgrade.upgrades) {
-				if (Utilities.MouseInRectGUI (upgrade.upgradeButtonRect)) 
-					return;
-			}
+			if (Utilities.MouseInRectGUI (new Rect(400, 10, 60, 200))) 
+				return;
 		}
 		
 		if(Input.GetMouseButton(0)) {
