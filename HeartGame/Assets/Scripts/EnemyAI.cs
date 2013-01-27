@@ -25,19 +25,30 @@ public struct UpdateEnemyInfo
 	public float time;
 }
 
+public struct DifficultyInfo
+{
+	public float updateInfoDelay; // 7
+	public float actInterval; // 3
+	public DifficultyInfo( float updateInfoDelay, float actInterval )
+	{
+		this.updateInfoDelay = updateInfoDelay;
+		this.actInterval = actInterval;
+	}
+}
+
 public class EnemyAI : MonoBehaviour {	
 	public static int difficulty;
 	public PlayerScript enemyPlayerScript;
 	public PlayerScript ourPlayerScript;
 	
+	public DifficultyInfo[] difficultyInfo;
+	
+	
 	List<EnemyInfo> enemyInfos;
 	Queue<UpdateEnemyInfo> updateEnemyInfos;
 	
 	public float updateInfoInterval = 1;
-	public float updateInfoDelay = 10;
 	float nextInfoUpdate;
-	
-	public float actInterval = 5;
 	float nextActTime;
 	
 //	public static System.Collections.Generic.Dictionary<string, string> counterDictionary = new System.Collections.Generic.Dictionary<string, string>()
@@ -68,10 +79,15 @@ public class EnemyAI : MonoBehaviour {
 	
 	void Start()
 	{
+		difficultyInfo = new DifficultyInfo[3];
+		difficultyInfo[0] = new DifficultyInfo(7, 5); // easy
+		difficultyInfo[1] = new DifficultyInfo(7, 3); // medium
+		difficultyInfo[2] = new DifficultyInfo(7, 2); // hard
+		
 		updateEnemyInfos = new Queue<UpdateEnemyInfo>();
 		enemyInfos = GetEnemyInfo();
 		nextInfoUpdate = Time.time + updateInfoInterval;
-		nextActTime = Time.time + actInterval;
+		nextActTime = Time.time + difficultyInfo[difficulty].actInterval;
 	}
 	
 	List<EnemyInfo> GetEnemyInfo()
@@ -94,7 +110,7 @@ public class EnemyAI : MonoBehaviour {
 			nextInfoUpdate = Time.time + updateInfoInterval;
 			UpdateEnemyInfo updateEnemyInfo = new UpdateEnemyInfo();
 			updateEnemyInfo.infos = GetEnemyInfo();
-			updateEnemyInfo.time = Time.time + updateInfoDelay;
+			updateEnemyInfo.time = Time.time + difficultyInfo[difficulty].updateInfoDelay;
 			updateEnemyInfos.Enqueue(updateEnemyInfo);
 		}
 		
@@ -207,6 +223,7 @@ public class EnemyAI : MonoBehaviour {
 		// find worst path score
 		for(int i = 0; i < 3; i++)
 		{
+			
 			if ( pathScores[i] < worstScore )
 			{
 				worstIndex = i;
@@ -295,7 +312,7 @@ public class EnemyAI : MonoBehaviour {
 		else
 		{
 			Debug.LogError("CANNOT FIND WORST SPAWNER");
-			return false;
+			return true;
 		}
 	}
 	
@@ -304,17 +321,11 @@ public class EnemyAI : MonoBehaviour {
 	public float clusterRadius = 100.0f;
 	
 	public GameObject bombPowerObject;
-	public int bombCost;
 	public GameObject slowPowerObject;
-	public int slowCost;
 	public GameObject hastePowerObject;
-	public int hasteCost;
 	public GameObject healPowerObject;
-	public int healCost;
 	public GameObject buffPowerObject;
-	public int buffCost;
 	public GameObject stallPowerObject;
-	public int stallCost;
 	
 	GameObject FindCluster(string tag)
 	{
@@ -334,87 +345,73 @@ public class EnemyAI : MonoBehaviour {
 		return null; // no cluster found
 	}
 	
-	private float shouldUseSuperPowerRange = 0.0f;
-	public float minAddToSuperPowerRange = 2.0f;
-	public float maxAddToSuperPowerRange = 5.0f;
-	
 	void CheckSuperPowers()
 	{
-		shouldUseSuperPowerRange += Random.Range( minAddToSuperPowerRange, maxAddToSuperPowerRange );
-		if ( Random.Range ( 20.0f, 100.0f ) < shouldUseSuperPowerRange )
+		string enemyTag = tag == "PlayerBase" ? "EnemyUnit" : "PlayerUnit";
+		string friendlyTag = tag == "PlayerBase" ? "PlayerUnit" : "EnemyUnit";
+		
+		float whatPower = Random.value * 100.0f;
+		
+		bool usedPower = false;
+		if ( whatPower > 66 )
 		{
-			shouldUseSuperPowerRange = 0.0f;
-			
-			string enemyTag = tag == "PlayerBase" ? "EnemyUnit" : "PlayerUnit";
-			string friendlyTag = tag == "PlayerBase" ? "PlayerUnit" : "EnemyUnit";
-			
-			float whatPower = Random.value * 100.0f;
-			
-			bool usedPower = false;
-			if ( whatPower > 66 )
+			// try enemy cluster
+			GameObject cluster = FindCluster(enemyTag);
+			if ( cluster != null )
 			{
-				// try enemy cluster
-				GameObject cluster = FindCluster(enemyTag);
-				if ( cluster != null )
-				{
-					whatPower = Random.value * 100.0f;
-					if ( whatPower > 50 )
-					{
-						// bomb
-						SuperPowers.UsePower( ourPlayerScript, bombPowerObject, bombCost, cluster.transform.position );
-					}
-					else
-					{
-						// slow	
-						SuperPowers.UsePower( ourPlayerScript, slowPowerObject, slowCost, cluster.transform.position );
-					}
-					
-					usedPower = true;
-				}
-			}
-			 if ( ( whatPower < 66 && whatPower > 33 ) || !usedPower )
-			{
-				// try friendly cluster	
-				GameObject cluster = FindCluster(tag);
-				if ( cluster != null )
-				{
-					whatPower = Random.value * 100.0f;
-					if ( whatPower > 50 )
-					{
-						// heal
-						SuperPowers.UsePower( ourPlayerScript, healPowerObject, healCost, cluster.transform.position );
-					}
-					else
-					{
-						// haste	
-						SuperPowers.UsePower( ourPlayerScript, hastePowerObject, hasteCost, cluster.transform.position );
-					}
-					
-					usedPower = true;
-				}
-			}
-			
-			if ( !usedPower )
-			{
-				// try buff/stall
 				whatPower = Random.value * 100.0f;
-				
-				if ( whatPower > 75 )
+				if ( whatPower > 50 )
 				{
-					// buff	
-					SuperPowers.UsePower( ourPlayerScript, buffPowerObject, buffCost, Vector3.zero );
+					// bomb
+					SuperPowers.UsePower( ourPlayerScript, bombPowerObject, cluster.transform.position );
 				}
-				else if ( whatPower > 50 )
+				else
 				{
-					// stall
-					SuperPowers.UsePower( ourPlayerScript, stallPowerObject, stallCost, Vector3.zero );
+					// slow	
+					SuperPowers.UsePower( ourPlayerScript, slowPowerObject, cluster.transform.position );
 				}
 				
 				usedPower = true;
 			}
+		}
+		 if ( ( whatPower < 66 && whatPower > 33 ) || !usedPower )
+		{
+			// try friendly cluster	
+			GameObject cluster = FindCluster(tag);
+			if ( cluster != null )
+			{
+				whatPower = Random.value * 100.0f;
+				if ( whatPower > 50 )
+				{
+					// heal
+					SuperPowers.UsePower( ourPlayerScript, healPowerObject, cluster.transform.position );
+				}
+				else
+				{
+					// haste	
+					SuperPowers.UsePower( ourPlayerScript, hastePowerObject, cluster.transform.position );
+				}
+				
+				usedPower = true;
+			}
+		}
+		
+		if ( !usedPower )
+		{
+			// try buff/stall
+			whatPower = Random.value * 100.0f;
 			
-			if ( usedPower )
-				Debug.Log("used power");
+			if ( whatPower > 50 )
+			{
+				// buff	
+				SuperPowers.UsePower( ourPlayerScript, buffPowerObject, Vector3.zero );
+			}
+			else
+			{
+				// stall
+				SuperPowers.UsePower( ourPlayerScript, stallPowerObject, Vector3.zero );
+			}
+			
 		}
 	}
 	
@@ -422,7 +419,7 @@ public class EnemyAI : MonoBehaviour {
 	{
 		if ( nextActTime < Time.time )
 		{
-			nextActTime = Time.time + actInterval;
+			nextActTime = Time.time + difficultyInfo[difficulty].actInterval;
 			UpdateScores();
 			CheckRotate();
 			CheckUpgrade();

@@ -14,6 +14,9 @@ public class PlayerScript : MonoBehaviour {
 	
 	public int[] upgradeCosts;
 	
+	public float powerCooldownTime = 5.0f;
+	public float powerCooldownTimer = 0.0f;
+	
 	// Use this for initialization
 	void Start () {
 		currentMoney = startingMoney;
@@ -25,6 +28,9 @@ public class PlayerScript : MonoBehaviour {
 	void Update () 
 	{
 		UpdateRotation();
+		
+		powerCooldownTimer -= Time.deltaTime;
+		powerCooldownTimer = Mathf.Max ( 0.0f, powerCooldownTimer );
 	}
 	
 	private void UpdateRotation()

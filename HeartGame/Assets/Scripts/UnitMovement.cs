@@ -219,7 +219,7 @@ public class UnitMovement : MonoBehaviour
 				//Handle AE burst
 				if (burstRadius <= 0)
 					unitMovement.Attacked (damage);
-				else {		
+				else {
 					var enemies = Utilities.FindObjectsWithinRange (this.transform.position, isPlayerUnit ? "EnemyUnit" : "PlayerUnit", burstRadius);					
 					foreach (var other in enemies) {
 						var otherMove = other.GetComponent<UnitMovement> ();
@@ -232,10 +232,13 @@ public class UnitMovement : MonoBehaviour
 			if (playerScript != null)
 				playerScript.Attacked (damage);			
 			
-			GameObject effect = (GameObject)Instantiate (attackParticleEffect, this.transform.position, this.transform.rotation);
-			effect.transform.parent = gameObject.transform;
-			effect.transform.localPosition = new Vector3 (0.0f, 0.0f, 1.0f);
-			GameObject.Destroy (effect, 0.5f);
+			if ( attackParticleEffect != null )
+			{
+				GameObject effect = (GameObject)Instantiate (attackParticleEffect, this.transform.position, this.transform.rotation);
+				effect.transform.parent = gameObject.transform;
+				effect.transform.localPosition = new Vector3 (0.0f, 0.0f, 1.0f);
+				GameObject.Destroy (effect, 1.0f);
+			}
 			nextAttackTime = Time.time + attackInterval;
 		}
 	}
