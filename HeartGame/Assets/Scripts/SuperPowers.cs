@@ -23,9 +23,15 @@ public class SuperPowers : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if ( Input.GetButtonDown( bombAxis )  || (targetPreview !=null && Input.GetButtonDown ("Fire1")))
-		{		
-			UsePower( source, bombSuperPower, cost );
+		if ( Input.GetButtonDown( bombAxis )  || (targetPreview != null && Input.GetButtonDown ("Fire1")))
+		{
+			Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
+			RaycastHit hit;
+			if ( Physics.Raycast( ray, out hit, Mathf.Infinity, 1 << 10 ) )
+			{
+				UsePower( source, bombSuperPower, cost, hit.point );					
+			}
+			
 			if(targetPreview !=null){
 				GameObject.Destroy(targetPreview);
 				targetPreview = null;
@@ -33,15 +39,12 @@ public class SuperPowers : MonoBehaviour
 		}
 	}
 	
-	public static void UsePower(PlayerScript sourcePlayer, GameObject power, int powerCost) {
-		if(sourcePlayer.currentMoney >= powerCost){
+	public static void UsePower(PlayerScript sourcePlayer, GameObject power, int powerCost, Vector3 position)
+	{
+		if(sourcePlayer.currentMoney >= powerCost)
+		{
 			sourcePlayer.currentMoney -= powerCost;
-			Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
-			RaycastHit hit;
-			if ( Physics.Raycast( ray, out hit, Mathf.Infinity, 1 << 10 ) )
-			{
-				Instantiate( power, hit.point, Quaternion.identity );					
-			}	
+			Instantiate( power, position, Quaternion.identity );
 		}
 	}
 	
