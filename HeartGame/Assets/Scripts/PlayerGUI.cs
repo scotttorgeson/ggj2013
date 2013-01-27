@@ -13,7 +13,7 @@ public class PlayerGUI : MonoBehaviour
 	public Rect resourceTextRect;
 	public GUIStyle mapStyle;
 	public Vector2 mapSize = new Vector2 (256, 384);
-	public Rect sceneSize = new Rect (-525, 235, 1024, 1536);
+	public Rect sceneSize = new Rect (-1037, -277, 2048, 3072);
 	public float iconSize = 8;
 	public Color enemyColor = Color.red;
 	public Color friendlyColor = Color.blue;
@@ -35,25 +35,27 @@ public class PlayerGUI : MonoBehaviour
 	
 	Vector2 getMapPos (Vector3 worldPos)
 	{
-		Vector3 absMapPos = new Vector3 ((worldPos.x - sceneSize.x)/sceneSize.width - 0.5f,(worldPos.z - sceneSize.y) / sceneSize.height - 0.5f, 0);
-		absMapPos = Quaternion.AngleAxis(-40, Vector3.up) * absMapPos;
-		absMapPos += new Vector3(0.5f, 0, 0.5f);
-		absMapPos = new Vector3 (absMapPos.x * sceneSize.width, absMapPos.z * sceneSize.height, 0);
-		return absMapPos;
+		Vector3 tmp = new Vector3 ((worldPos.x - sceneSize.x)/sceneSize.width - 0.5f, 0, 
+			0.5f - (worldPos.z - sceneSize.y) / sceneSize.height);
+		tmp = Quaternion.AngleAxis(-40, Vector3.up) * tmp;
+		tmp = new Vector3 ((tmp.x + 0.5f) * mapSize.x, (tmp.z + 0.5f) * mapSize.y, 0);
+		return tmp;
 	}
 	
 	Vector3 getWorldPos (Vector2 mapPos){
-		Vector3 tmp = new Vector3(mapPos.x / mapRect.width - 0.5f, 0, 
-			mapPos.y / mapRect.height - 0.5f);
+		Vector3 tmp = new Vector3(mapPos.x / mapSize.x - 0.5f, 0, 
+			mapPos.y / mapSize.y - 0.5f);
 		tmp = Quaternion.AngleAxis(40, Vector3.up) * tmp;
 		tmp = new Vector3((tmp.x + 0.5f) * sceneSize.width + sceneSize.x, 0,
-			(tmp.y+0.5f) * sceneSize.height + sceneSize.y);
+			(0.5f - tmp.z) * sceneSize.height + sceneSize.y);
 		return tmp;
 	}
 	
 	void OnGUI ()
 	{		
-		GUI.BeginGroup (mapRect, mapStyle);
+		GUI.color = new Color(1,1,1,0.6f);
+		GUI.BeginGroup (mapRect);
+		GUI.Box (new Rect(0, 0, 100000,100000), "");
 		var icons = GameObject.FindGameObjectsWithTag ("EnemyUnit");
 		GUI.color = Color.red;
 		foreach (var icon in icons) {
