@@ -124,6 +124,7 @@ ModelImporter:
     7400002: scout_start_attack
     7400004: scout_cycled_attack
     9500000: //RootNode
+    11100000: //RootNode
     13700000: MEGATRON:Sphere001
   materials:
     importMaterials: 1
@@ -239,5 +240,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   additionalBone: 1
-  animationType: 2
+  animationType: 1
   userData: 
