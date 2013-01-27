@@ -57,7 +57,8 @@ public class SuperPowers : MonoBehaviour
 			Rect shadeRect = bombButtonRect;
 			shadeRect.y += shadeRect.height - shadeRect.height * (player.powerCooldownTimer / player.powerCooldownTime);
 			shadeRect.height = shadeRect.height * (player.powerCooldownTimer / player.powerCooldownTime);
-			GUI.Box (shadeRect, bombButtonStyle);
+			GUI.color = new Color(1, 0.6f, 0, 0.8f);
+			GUI.Box (shadeRect, "", bombButtonStyle);
 		}		
 		if(targetPreview != null){
 			//Draw targetting thingamajig
