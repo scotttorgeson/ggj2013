@@ -28,8 +28,6 @@ public class UnitMovement : MonoBehaviour
 	private float currentSpeed;
 	public bool attacking;
 	
-	public AudioClip attackSound;
-	
 	public static bool DisableFogOfWar = true;
 	
 	// Use this for initialization
