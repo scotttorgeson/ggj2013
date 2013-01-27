@@ -28,6 +28,8 @@ public class UnitMovement : MonoBehaviour
 	private float currentSpeed;
 	public bool attacking;
 	
+	public AudioClip attackSound;
+	
 	public static bool DisableFogOfWar = true;
 	
 	// Use this for initialization
@@ -245,6 +247,9 @@ public class UnitMovement : MonoBehaviour
 			// attack
 			UnitMovement unitMovement = enemy.GetComponent<UnitMovement> ();
 			PlayerScript playerScript = enemy.GetComponent<PlayerScript> ();
+			if(audio!=null){
+				audio.Play();
+			}
 			
 			if (unitMovement != null) {
 				//Handle AE burst
