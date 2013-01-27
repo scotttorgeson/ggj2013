@@ -306,13 +306,16 @@ public class EnemyAI : MonoBehaviour {
 	GameObject[] FindCluster(string tag)
 	{
 		GameObject[] units = GameObject.FindGameObjectsWithTag(tag);
-		for ( int i = 0; i < clusterSearchCount; i++ )
+		if ( units.Length > 0 )
 		{
-			int index = Random.Range(0, units.Length);
-			GameObject[] cluster = Utilities.FindObjectsWithinRange(units[index].transform.position, tag, clusterRadius);
-			
-			if ( cluster.Length > clusterSize )
-				return cluster;
+			for ( int i = 0; i < clusterSearchCount; i++ )
+			{
+				int index = Random.Range(0, units.Length);
+				GameObject[] cluster = Utilities.FindObjectsWithinRange(units[index].transform.position, tag, clusterRadius);
+				
+				if ( cluster.Length > clusterSize )
+					return cluster;
+			}
 		}
 		
 		return null; // no cluster found
