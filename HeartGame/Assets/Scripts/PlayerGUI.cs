@@ -143,7 +143,7 @@ public class PlayerGUI : MonoBehaviour
 			if(Utilities.MouseInRectGUI(mapRect)) {
 				var target = getWorldPos((Vector2)Utilities.TranslateMouseForGUI() - new Vector2(mapRect.x, mapRect.y));
 				//Yay - time for magic numbers
-				Camera.main.transform.position = target + new Vector3(186, 358, -48);
+				Camera.main.transform.position = target + new Vector3(85,173,-81);
 			}
 			else{
 				var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
