@@ -158,8 +158,8 @@ public class UnitMovement : MonoBehaviour
 		if ( usToThem.sqrMagnitude > 0.0f )
 		{
 			Quaternion targetRot = Quaternion.LookRotation(usToThem, Vector3.up);
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotateSpeed);
-		}
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotateSpeed * Time.deltaTime);
+		} 
 	}
 	
 	void MoveTo (Transform other)
@@ -178,7 +178,7 @@ public class UnitMovement : MonoBehaviour
 		
 		//gameObject.transform.rigidbody.AddForce(gameObject.transform.forward * moveSpeed, ForceMode.VelocityChange);
 		
-		this.gameObject.transform.position = Vector3.MoveTowards (this.gameObject.transform.position, other, moveSpeed);
+		this.gameObject.transform.position = Vector3.MoveTowards (this.gameObject.transform.position, other, moveSpeed * Time.deltaTime);
 	}
 	
 	// checks if we are in range and facing the enemy
