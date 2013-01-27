@@ -31,6 +31,8 @@ public class UnitMovement : MonoBehaviour
 	void Start ()
 	{
 		this.gameObject.transform.position = path.nodes [nodeIndex].position;
+		if ( path.nodes.Count > nodeIndex + 1 )
+			this.gameObject.transform.LookAt( path.nodes[nodeIndex+1].position );
 		isPlayerUnit = this.tag == "PlayerUnit";
 		
 		if (!isPlayerUnit) {
@@ -81,15 +83,12 @@ public class UnitMovement : MonoBehaviour
 			} else {
 				// not in range to attack, move towards target enemy
 				MoveTo (targetEnemy);
-			}			
-			
-			gameObject.transform.LookAt (targetEnemy.transform);
+			}
 		} else {
 			// are we near the base?
 			if (Vector3.Distance (this.transform.position, enemyBase.transform.position) < perceptRadius) {
 				// move towards the enemy base
 				MoveTo (enemyBase);
-				gameObject.transform.LookAt (enemyBase.transform.position);
 				
 				if (InRangeToAttack (enemyBase)) {
 					// attack the enemy base
@@ -98,7 +97,6 @@ public class UnitMovement : MonoBehaviour
 			} else {			
 				// move towards next path node
 				MoveTo (path.nodes [nodeIndex]);
-				gameObject.transform.LookAt (path.nodes [nodeIndex].transform);
 			}
 		}
 		
@@ -132,6 +130,31 @@ public class UnitMovement : MonoBehaviour
 		}
 	}
 	
+	void Face(GameObject other)
+	{
+		Face (other.transform);
+	}
+	
+	void Face(Transform other)
+	{
+		Face (other.position);	
+	}
+	
+	void Face(Vector3 other)
+	{
+		// turn us to face other, at a rate of rotateSpeed
+		
+		Vector3 usToThem =  other - transform.position;
+		usToThem.y = 0.0f;
+		usToThem.Normalize();
+		
+		if ( usToThem.sqrMagnitude > 0.0f )
+		{
+			Quaternion targetRot = Quaternion.LookRotation(usToThem, Vector3.up);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotateSpeed);
+		}
+	}
+	
 	void MoveTo (Transform other)
 	{
 		MoveTo (other.position);
@@ -144,6 +167,10 @@ public class UnitMovement : MonoBehaviour
 	
 	void MoveTo (Vector3 other)
 	{
+		Face ( other );
+		
+		//gameObject.transform.rigidbody.AddForce(gameObject.transform.forward * moveSpeed, ForceMode.VelocityChange);
+		
 		this.gameObject.transform.position = Vector3.MoveTowards (this.gameObject.transform.position, other, moveSpeed);
 	}
 	
@@ -170,8 +197,15 @@ public class UnitMovement : MonoBehaviour
 		return false;
 	}
 	
+	void StopMoving()
+	{
+		//gameObject.rigidbody.velocity = Vector3.zero;
+	}
+	
+	
 	void Attack (GameObject enemy)
 	{
+		StopMoving();
 		attacking = true;
 		
 		if (nextAttackTime < Time.time) {

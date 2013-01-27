@@ -50,11 +50,11 @@ public class EnemyAI : MonoBehaviour {
 	
 	static float[,] counterTable =
 	{
-		{ 0, 0, 10, -10, 0 },
-		{ 0, 0, -10, 10, 0 },
-		{ -10, 10, 0, 0, 0 },
-		{ 10, -10, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0 },
+		{ 0, -5, 10, -10, -10 },
+		{ 5, 0, -10, 10, -10 },
+		{ -10, 10, 0, -5, -10 },
+		{ 10, -10, 5, 0, -10 },
+		{ 10, 10, 10, 10, 0 },
 	};
 	
 	static Dictionary<string, int> counterTableIndex = new Dictionary<string, int>()
