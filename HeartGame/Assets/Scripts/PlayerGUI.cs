@@ -12,12 +12,14 @@ public class PlayerGUI : MonoBehaviour
 	public GUIStyle resourceTextStyle;
 	public Rect resourceTextRect;
 	public GUIStyle mapStyle;
-	public Vector2 mapSize = new Vector2 (128, 512);
-	public Rect sceneSize = new Rect (-250, 225, 400, 1575);
-	public float iconSize = 3;
-	public Color enemyColor;
-	public Color friendlyColor;
+	public Vector2 mapSize = new Vector2 (256, 384);
+	public Rect sceneSize = new Rect (-525, 235, 1024, 1536);
+	public float iconSize = 8;
+	public Color enemyColor = Color.red;
+	public Color friendlyColor = Color.blue;
 	public Texture iconTexture;
+	
+	private Rect mapRect;
 
 	// Use this for initialization
 	void Start ()
@@ -28,23 +30,29 @@ public class PlayerGUI : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		mapRect = new Rect (Screen.width - mapSize.x - 10, Screen.height - mapSize.y - 10, mapSize.x, mapSize.y);
 		UpdateSelection ();
 	}
 	
-	Vector2 getMapPos (Rect mapRect, Vector3 worldPos)
+	Vector2 getMapPos (Vector3 worldPos)
 	{
 		return new Vector2 ((worldPos.x - sceneSize.x) * mapRect.width / sceneSize.width,
 			mapRect.height - (worldPos.z - sceneSize.y) * mapRect.height / sceneSize.height);
 	}
 	
+	Vector3 getWorldPos (Vector2 mapPos){
+		return new Vector3 (mapPos.x * sceneSize.width / mapRect.width + sceneSize.x,
+			0,
+			sceneSize.y + (mapRect.height-mapPos.y) * sceneSize.height / mapRect.height);
+	}
+	
 	void OnGUI ()
-	{
-		var mapRect = new Rect (Screen.width - mapSize.x - 10, Screen.height - mapSize.y - 10, mapSize.x, mapSize.y);
+	{		
 		GUI.BeginGroup (mapRect, mapStyle);
 		var icons = GameObject.FindGameObjectsWithTag ("EnemyUnit");
 		GUI.color = Color.red;
 		foreach (var icon in icons) {
-			var mapPos = getMapPos (mapRect, icon.transform.position);
+			var mapPos = getMapPos (icon.transform.position);
 			var unitMove = icon.GetComponent<UnitMovement>();
 			if(unitMove!=null && unitMove.IsVisible()){
 				GUI.DrawTexture (new Rect (mapPos.x, mapPos.y, iconSize, iconSize),
@@ -55,7 +63,7 @@ public class PlayerGUI : MonoBehaviour
 		icons = GameObject.FindGameObjectsWithTag ("PlayerUnit");
 		GUI.color = Color.blue;
 		foreach (var icon in icons) {
-			var mapPos = getMapPos (mapRect, icon.transform.position);
+			var mapPos = getMapPos (icon.transform.position);
 			GUI.DrawTexture (new Rect (mapPos.x, mapPos.y, iconSize, iconSize),
 				iconTexture);
 		}
@@ -73,6 +81,8 @@ public class PlayerGUI : MonoBehaviour
 			}
 		}
 		
+		GUI.color = Color.white;
+		
 		int resourceCount = gameObject.GetComponent<PlayerScript> ().currentMoney;
 		GUI.TextArea (resourceTextRect, resourceCount.ToString (), resourceTextStyle);
 	}
@@ -89,13 +99,20 @@ public class PlayerGUI : MonoBehaviour
 		}
 		
 		if (Input.GetButtonDown ("Fire1")) {
-			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			RaycastHit rayHit;
-			if (Physics.Raycast (ray, out rayHit, Mathf.Infinity, 1 << 9)) {
-				if (rayHit.transform.gameObject.GetComponent<Spawner> () != null)
-					selectedSpawner = rayHit.transform.gameObject;
-			} else
-				selectedSpawner = null;
+			if(Utilities.MouseInRectGUI(mapRect)) {
+				var target = getWorldPos((Vector2)Utilities.TranslateMouseForGUI() - new Vector2(mapRect.x, mapRect.y));
+				//Yay - time for magic numbers
+				Camera.main.transform.position = target + new Vector3(186, 358, -48);
+			}
+			else{
+				var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				RaycastHit rayHit;
+				if (Physics.Raycast (ray, out rayHit, Mathf.Infinity, 1 << 9)) {
+					if (rayHit.transform.gameObject.GetComponent<Spawner> () != null)
+						selectedSpawner = rayHit.transform.gameObject;
+				} else
+					selectedSpawner = null;
+			}
 		}
 		
 		if (selectedSpawner != null) {
