@@ -16,6 +16,7 @@ public class PlayerGUI : MonoBehaviour
 	public float iconSize = 8;
 	public Color enemyColor = Color.red;
 	public Color friendlyColor = Color.blue;
+	public Texture mapTexture;
 	public Texture iconTexture;
 	public Texture resourceTexture;
 	
@@ -46,7 +47,7 @@ public class PlayerGUI : MonoBehaviour
 	{
 		Vector3 tmp = new Vector3 ((worldPos.x - sceneSize.x)/sceneSize.width - 0.5f, 0, 
 			0.5f - (worldPos.z - sceneSize.y) / sceneSize.height);
-		tmp = Quaternion.AngleAxis(-40, Vector3.up) * tmp;
+		tmp = Quaternion.AngleAxis(-45, Vector3.up) * tmp;
 		tmp = new Vector3 ((tmp.x + 0.5f) * mapSize.x, (tmp.z + 0.5f) * mapSize.y, 0);
 		return tmp;
 	}
@@ -54,7 +55,7 @@ public class PlayerGUI : MonoBehaviour
 	Vector3 getWorldPos (Vector2 mapPos){
 		Vector3 tmp = new Vector3(mapPos.x / mapSize.x - 0.5f, 0, 
 			mapPos.y / mapSize.y - 0.5f);
-		tmp = Quaternion.AngleAxis(40, Vector3.up) * tmp;
+		tmp = Quaternion.AngleAxis(45, Vector3.up) * tmp;
 		tmp = new Vector3((tmp.x + 0.5f) * sceneSize.width + sceneSize.x, 0,
 			(0.5f - tmp.z) * sceneSize.height + sceneSize.y);
 		return tmp;
@@ -62,8 +63,26 @@ public class PlayerGUI : MonoBehaviour
 	
 	void OnGUI ()
 	{
+		drawMinimap();
+		GUI.color = Color.white;					
+		if (selectedSpawner != null) {
+			var spawner = selectedSpawner.GetComponent<Spawner> ();
+			if (spawner != null && spawner.currentUpgrade != null) {
+				//display upgrade path selection
+				foreach (var upgrade in spawner.currentUpgrade.upgrades) {
+					if (GUI.Button (upgrade.upgradeButtonRect, upgrade.upgradeButtonContent, upgrade.upgradeButtonStyle)) {
+						gameObject.GetComponent<PlayerScript> ().Upgrade (spawner, upgrade);
+					}
+				}
+			}
+		}
+		
+		drawResourceHUD();
+	}
+	
+	void drawMinimap(){
 		GUI.BeginGroup (mapRect);
-		GUI.Box (new Rect(0, 0, 100000,100000), "");
+		GUI.Box (new Rect(0, 0, mapRect.width,mapRect.height), mapTexture);
 		var icons = GameObject.FindGameObjectsWithTag ("EnemyUnit");
 		GUI.color = Color.red;
 		foreach (var icon in icons) {
@@ -90,22 +109,6 @@ public class PlayerGUI : MonoBehaviour
 				iconTexture);
 		}
 		GUI.EndGroup ();
-		
-		
-		GUI.color = Color.white;					
-		if (selectedSpawner != null) {
-			var spawner = selectedSpawner.GetComponent<Spawner> ();
-			if (spawner != null && spawner.currentUpgrade != null) {
-				//display upgrade path selection
-				foreach (var upgrade in spawner.currentUpgrade.upgrades) {
-					if (GUI.Button (upgrade.upgradeButtonRect, upgrade.upgradeButtonContent, upgrade.upgradeButtonStyle)) {
-						gameObject.GetComponent<PlayerScript> ().Upgrade (spawner, upgrade);
-					}
-				}
-			}
-		}
-		
-		drawResourceHUD();
 	}
 	
 	void drawResourceHUD(){
