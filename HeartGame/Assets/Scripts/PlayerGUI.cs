@@ -119,7 +119,7 @@ public class PlayerGUI : MonoBehaviour
 			var rect = new Rect(149, 54, 162, 23);
 			GUI.color = new Color(1, 0.9f, 0.9f, 0.7f);
 			GUI.DrawTexture(rect, barTexture);
-			rect.width *= (currHealth / maxHealth);
+			rect.width *= ((float)currHealth / maxHealth);
 			GUI.color = Color.red;
 			GUI.DrawTexture(rect, barTexture);
 			GUI.color = Color.white;
@@ -132,7 +132,7 @@ public class PlayerGUI : MonoBehaviour
 	void UpdateSelection ()
 	{
 		if (selectedSpawner != null) {
-			if (Utilities.MouseInRectGUI (new Rect(400, 10, 60, 340))) 
+			if (Utilities.MouseInRectGUI (new Rect(400, 10, 140, 340))) 
 				return;
 		}
 		

@@ -13,25 +13,29 @@ public class MainMenu : MonoBehaviour {
 		GUI.Box (new Rect(10,10,100,160), "Main Menu");
 		
 		if(GUI.Button (new Rect(20,40,80,20), "Start Game")){
+			Application.LoadLevel(2);
+		}
+		
+		if(GUI.Button (new Rect(20, 80, 80, 20), "Demo Mode")){
 			Application.LoadLevel(1);
 		}
 		
-		GUI.Label(new Rect(20, 80, 80, 20), "AI Difficulty");
+		GUI.Label(new Rect(20, 120, 80, 20), "AI Difficulty");
 		aiDifficulty = GUI.HorizontalSlider(new Rect(20, 110, 80, 20),
 			aiDifficulty, 0, 3);
 		if(aiDifficulty<0.7){
 			GUI.color = Color.green;
-			GUI.Label(new Rect(20, 130, 80, 20), "Easy");
+			GUI.Label(new Rect(20, 170, 80, 20), "Easy");
 			EnemyAI.difficulty = 0;
 		}
 		else if(aiDifficulty<1.4){
 			GUI.color = new Color(1, 0.4f, 0);
-			GUI.Label (new Rect(20, 130, 80, 20), "Medium");
+			GUI.Label (new Rect(20, 170, 80, 20), "Medium");
 			EnemyAI.difficulty = 1;
 		}
 		else{
 			GUI.color = Color.red;
-			GUI.Label (new Rect(20, 130, 80, 20), "Hard");
+			GUI.Label (new Rect(20, 170, 80, 20), "Hard");
 			EnemyAI.difficulty = 2;
 		}
 		GUI.color = Color.white;
