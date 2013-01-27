@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour {
 		
 		//Rotate base
 		float rot = gameObject.transform.eulerAngles.y;
-		rot = Mathf.MoveTowardsAngle(rot, targetRotation, 1.0f);
+		rot = Mathf.MoveTowardsAngle(rot, targetRotation, 3.0f);
 		gameObject.transform.eulerAngles = new Vector3(0f, rot, 0f);
 	}
 	
