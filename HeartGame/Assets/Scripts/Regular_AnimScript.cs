@@ -8,6 +8,7 @@ public class Regular_AnimScript : MonoBehaviour {
 	void Update () {
 		if ( gameObject.transform.parent.GetComponent<UnitMovement>().attacking )
 		{
+			/*
 			if (attacking == false )
 			{
 				attacking = true;
@@ -16,7 +17,7 @@ public class Regular_AnimScript : MonoBehaviour {
 			
 			if ( Time.time < playStartAttackUntil )
 				animation.CrossFade("regular_attack_start");
-			else
+			else*/
 				animation.CrossFade("regular_attack");
 		}
 		else

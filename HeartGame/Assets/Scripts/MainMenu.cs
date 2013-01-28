@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 	float aiDifficulty = 0;
+	public Texture menuBackground;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -10,6 +12,8 @@ public class MainMenu : MonoBehaviour {
 	
 	// Draw the GUI
 	void OnGUI () {
+		GUI.color = Color.white;
+		GUI.Box ( new Rect(0, 0, Screen.width, Screen.height), menuBackground);
 		GUI.Box (new Rect(10,10,100,160), "Main Menu");
 		
 		if(GUI.Button (new Rect(20,40,80,20), "Start Game")){
